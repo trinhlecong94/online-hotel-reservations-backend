@@ -1,6 +1,11 @@
 package com.onlinehotelreservations.entity;
 
-import com.onlinehotelreservations.entity.enums.Role;
+import com.onlinehotelreservations.shared.enums.Role;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -11,6 +16,10 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "role")
 public class RoleEntity implements Serializable {
 
@@ -18,33 +27,6 @@ public class RoleEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Enumerated(EnumType.STRING)
-    private Role name = Role.ROLE_USER;
+    private String name = Role.ROLE_USER.toString();
 
-    public RoleEntity() {
-    }
-
-    public RoleEntity(int id) {
-        this.id = id;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Role getName() {
-        return name;
-    }
-
-    public void setName(Role name) {
-        this.name = name;
-    }
-
-    public String getNameString() {
-        return name.toString();
-    }
 }
