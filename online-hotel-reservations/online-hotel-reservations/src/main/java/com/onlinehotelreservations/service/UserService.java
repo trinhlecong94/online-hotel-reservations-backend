@@ -11,10 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -35,8 +32,11 @@ public class UserService {
     }
 
     public UserEntity addNewUser(UserEntity userEntity) {
-        if (this.userRepository.findByUserName(userEntity.getUserName()).isPresent()) {
-            throw new UserIsExistsException(userEntity.getId());
+
+        Optional<UserEntity> userEntityFromDataBase = this.userRepository.findByUserName(userEntity.getUserName());
+
+        if (userEntityFromDataBase.isPresent()) {
+            throw new UserIsExistsException(userEntityFromDataBase.get().getId());
         }
 
         if (userEntity.getRoleEntities() == null || userEntity.getRoleEntities().isEmpty()) {
