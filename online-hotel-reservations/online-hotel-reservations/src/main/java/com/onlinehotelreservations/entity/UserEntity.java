@@ -20,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -36,24 +37,29 @@ public class UserEntity implements Serializable {
     @NotBlank(message = "Username can't be blank")
     @Pattern(regexp = "^\\S*$", message = "Username can't be white spaces")
     @Size(min = 8, message = "Username must be 8 characters")
+    @NotNull
     private String username;
 
     @Column(nullable = false)
     @NotBlank(message = "password can't be blank")
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
             message = "Password must be 8 characters including 1 uppercase letter, 1 lowercase letter and numeric characters")
+    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "accounts_roles",
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+    @NotNull
     private List<RoleEntity> accountRoles;
 
     @NotBlank(message = "Fist name is required")
+    @NotNull
     private String firstName;
 
     @NotBlank(message = "Last name is required")
+    @NotNull
     private String lastName;
 
     @Enumerated(EnumType.STRING)
@@ -63,10 +69,6 @@ public class UserEntity implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date birthday;
 
-    private String address;
-
-    private String city;
-
     @Column(name = "tel_number")
     @NotBlank(message = "Phone is required")
     @Pattern(regexp = "(0)+([0-9]{9})\\b", message = "Phone not in correct format")
@@ -75,7 +77,7 @@ public class UserEntity implements Serializable {
     public UserEntity() {
     }
 
-    public UserEntity(int id, String username, String password, List<RoleEntity> accountRoles, String firstName, String lastName, Date birthday, String address, String city, String phone) {
+    public UserEntity(int id, String username, String password, List<RoleEntity> accountRoles, String firstName, String lastName, Date birthday, String phone) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -83,8 +85,6 @@ public class UserEntity implements Serializable {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthday = birthday;
-        this.address = address;
-        this.city = city;
         this.phone = phone;
     }
 
@@ -150,22 +150,6 @@ public class UserEntity implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
     }
 
     public String getPhone() {

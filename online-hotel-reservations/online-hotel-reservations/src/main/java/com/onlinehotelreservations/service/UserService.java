@@ -4,6 +4,7 @@ import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,7 +14,11 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private PasswordEncoder bcryptEncoder;
+
     public UserEntity saveUser(UserEntity userEntity) {
+        userEntity.setPassword(bcryptEncoder.encode(userEntity.getPassword()));
         return userRepository.save(userEntity);
     }
 
@@ -45,14 +50,8 @@ public class UserService {
                     if (!userEntity.getAccountRoles().isEmpty()) {
                         x.setAccountRoles(userEntity.getAccountRoles());
                     }
-                    if (!userEntity.getAddress().isEmpty()) {
-                        x.setAddress(userEntity.getAddress());
-                    }
                     if (userEntity.getBirthday() != null) {
                         x.setBirthday(userEntity.getBirthday());
-                    }
-                    if (!userEntity.getCity().isEmpty()) {
-                        x.setCity(userEntity.getCity());
                     }
                     if (!userEntity.getFirstName().isEmpty()) {
                         x.setFirstName(userEntity.getFirstName());
