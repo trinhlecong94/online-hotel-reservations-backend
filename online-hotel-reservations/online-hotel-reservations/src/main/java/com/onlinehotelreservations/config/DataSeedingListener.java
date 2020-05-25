@@ -15,8 +15,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
 @Configuration
@@ -41,13 +41,13 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     private void addUserIfMissing(String username, String password, Role... roles) {
         if (userRepository.findByUserName(username) == null) {
 
-            List<RoleEntity> roleIsExists = new ArrayList<>();
+            Set<RoleEntity> roleIsExists = new HashSet<>();
             for (Role role : roles) {
                 roleIsExists.add(roleRepository.findByName(role.toString()));
             }
 
             userRepository.save(UserEntity.builder().userName(username).password(new BCryptPasswordEncoder().encode(password))
-                    .accountRoles(roleIsExists).firstName("khanh").lastName("nguyen").phone("0382189922").build());
+                    .roleEntities(roleIsExists).firstName("khanh").lastName("nguyen").phone("0382189922").build());
         }
     }
 

@@ -3,6 +3,7 @@ package com.onlinehotelreservations.entity;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,6 +20,7 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
@@ -51,18 +53,23 @@ public class UserEntity implements Serializable {
     @NotBlank(message = "password can't be blank")
     @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
             message = "Password must be 8 characters including 1 uppercase letter, 1 lowercase letter and numeric characters")
+    @NotNull
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private List<RoleEntity> accountRoles;
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id")
+    )
+    private Set<RoleEntity> roleEntities;
 
     @NotBlank(message = "Fist name is required")
+    @NotNull
     private String firstName;
 
     @NotBlank(message = "Last name is required")
+    @NotNull
     private String lastName;
 
     @Enumerated(EnumType.STRING)
@@ -71,10 +78,6 @@ public class UserEntity implements Serializable {
     @DateTimeFormat(pattern = "yyyy-mm-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
-
-    private String address;
-
-    private String city;
 
     @Column(name = "tel_number")
     @NotBlank(message = "Phone is required")

@@ -1,10 +1,8 @@
 package com.onlinehotelreservations.repository;
 
 import com.onlinehotelreservations.entity.UserEntity;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface UserRepository extends CrudRepository<UserEntity, Integer> {
-    UserEntity findByUserName(String username);
+public interface UserRepository extends JpaRepository<UserEntity, Integer> {
+    UserEntity findByUserName(String userName);
 }

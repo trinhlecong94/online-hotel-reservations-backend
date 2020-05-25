@@ -1,9 +1,8 @@
 package com.onlinehotelreservations.repository;
 
 import com.onlinehotelreservations.entity.RoleEntity;
-import com.onlinehotelreservations.entity.UserEntity;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RoleRepository extends CrudRepository<RoleEntity, Integer> {
+public interface RoleRepository extends JpaRepository<RoleEntity, Integer> {
     RoleEntity findByName(String name);
 }

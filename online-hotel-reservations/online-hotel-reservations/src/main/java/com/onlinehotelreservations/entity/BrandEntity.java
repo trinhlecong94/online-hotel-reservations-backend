@@ -1,32 +1,31 @@
 package com.onlinehotelreservations.entity;
 
-import com.onlinehotelreservations.shared.enums.Role;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 @Entity
+@Table(name = "brand")
 @Data
-@Builder
-@NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "role")
-public class RoleEntity implements Serializable {
+@NoArgsConstructor
+public class BrandEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(nullable = false, length = 45, unique = true)
+    @NotNull
     private String name;
 
 }
