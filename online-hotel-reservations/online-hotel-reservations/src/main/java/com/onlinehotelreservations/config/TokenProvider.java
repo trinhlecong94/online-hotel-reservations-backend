@@ -42,6 +42,7 @@ public class TokenProvider {
                 .parseClaimsJws(token)
                 .getBody();
     }
+
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
@@ -57,7 +58,7 @@ public class TokenProvider {
                 .claim(Constants.AUTHORITIES_KEY, authorities)
                 .signWith(SignatureAlgorithm.HS256, signingKey)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS*1000))
+                .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))
                 .compact();
     }
 
@@ -67,6 +68,7 @@ public class TokenProvider {
                 username.equals(userDetails.getUsername())
                         && !isTokenExpired(token));
     }
+
     public UsernamePasswordAuthenticationToken getAuthentication(final String token, final Authentication existingAuth, final UserDetails userDetails) {
 
         final JwtParser jwtParser = Jwts.parser().setSigningKey(signingKey);

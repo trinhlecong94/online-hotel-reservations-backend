@@ -1,0 +1,19 @@
+package com.onlinehotelreservations.controller.user;
+
+import com.onlinehotelreservations.controller.user.DTO.UserDTO;
+import com.onlinehotelreservations.entity.UserEntity;
+import org.mapstruct.Mapper;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Mapper(componentModel = "spring")
+public abstract class UserMapper {
+    public abstract UserEntity toUserEntity(UserDTO userDTO);
+
+    public abstract UserDTO toUserDTO(UserEntity userEntity);
+
+    public List<UserDTO> toUserDTOs(List<UserEntity> userEntities) {
+        return userEntities.parallelStream().map(this::toUserDTO).collect(Collectors.toList());
+    }
+}

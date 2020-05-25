@@ -41,8 +41,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 logger.warn("the token is expired and not valid anymore", e);
             }
 
-        } else {
-            logger.warn("couldn't find bearer string, will ignore the header");
         }
 
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
@@ -54,7 +52,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                     UsernamePasswordAuthenticationToken authentication = jwtTokenUtil.getAuthentication(authToken, SecurityContextHolder.getContext().getAuthentication(), userDetails);
                     authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(req));
-                    logger.info("authenticated user " + username + ", setting security context");
                     SecurityContextHolder.getContext().setAuthentication(authentication);
                 }
             }
