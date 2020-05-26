@@ -15,6 +15,7 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,15 +40,19 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     }
 
     private void addUserIfMissing(String username, String password, Role... roles) {
-        if (userRepository.findByUserName(username) == null) {
+        if (!userRepository.findByUserName(username).isPresent()) {
 
             Set<RoleEntity> roleIsExists = new HashSet<>();
             for (Role role : roles) {
                 roleIsExists.add(roleRepository.findByName(role.toString()));
             }
-
             userRepository.save(UserEntity.builder().userName(username).password(new BCryptPasswordEncoder().encode(password))
-                    .roleEntities(roleIsExists).firstName("khanh").lastName("nguyen").phone("0382189922").build());
+                    .roleEntities(roleIsExists)
+                    .firstName("khanh")
+                    .lastName("nguyen")
+                    .phone("0382189922")
+                    .birthday(new Date())
+                    .build());
         }
     }
 
@@ -56,7 +61,6 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
         addRoleIfMissing(Role.ROLE_ADMIN);
         addRoleIfMissing(Role.ROLE_USER);
-
         addUserIfMissing("user10251025", "123456789aaA", Role.ROLE_USER);
         addUserIfMissing("admin10251025", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
 

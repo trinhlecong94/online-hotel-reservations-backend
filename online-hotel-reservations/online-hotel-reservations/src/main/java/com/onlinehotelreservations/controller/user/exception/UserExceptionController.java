@@ -18,4 +18,9 @@ public class UserExceptionController {
     public ResponseEntity<Object> exception(UserIsExistsException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
     }
+
+    @ExceptionHandler(value = UserIsNotExistsException.class)
+    public ResponseEntity<Object> exception(UserIsNotExistsException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.BAD_GATEWAY, exception));
+    }
 }
