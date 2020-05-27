@@ -19,10 +19,10 @@ import java.util.Set;
 @NoArgsConstructor
 @Builder
 public class RegisterDTO {
-    @NotBlank(message = "Username can't be blank")
-    @Pattern(regexp = "^\\S*$", message = "Username can't be white spaces")
-    @Size(min = 8, message = "Username must be 8 characters")
-    private String userName;
+
+    @NotNull
+    @Pattern(regexp = "^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", message = "Email not match")
+    private String email;
 
     private Set<RoleEntity> roleEntities;
 
@@ -40,9 +40,8 @@ public class RegisterDTO {
     @NotNull
     private String lastName;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    @NotBlank(message = "Username can't be blank")
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-mm-dd")
     private Date birthday;
 
     @NotBlank(message = "Phone is required")

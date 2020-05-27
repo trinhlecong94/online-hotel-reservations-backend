@@ -6,47 +6,48 @@ import com.onlinehotelreservations.controller.authentication.DTO.LoginDTO;
 import com.onlinehotelreservations.controller.authentication.DTO.RegisterDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.controller.user.UserMapper;
+import com.onlinehotelreservations.service.AuthService;
 import com.onlinehotelreservations.service.UserService;
 import com.onlinehotelreservations.shared.model.ApiData;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Slf4j
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/auth")
 public class AuthenticationController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
-    @Autowired
-    private TokenProvider jwtTokenUtil;
-
-    @Autowired
-    private AuthenticationMapper authenticationMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
-    private UserService userService;
+    private final AuthenticationManager authenticationManager;
+    private final TokenProvider jwtTokenUtil;
+    private final AuthenticationMapper authenticationMapper;
+    private final UserMapper userMapper;
+    private final UserService userService;
+    private final AuthService authenticationService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody @Validated LoginDTO login) {
-        final Authentication authentication = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        login.getEmail(),
-                        login.getPassword()
-                )
-        );
-        SecurityContextHolder.getContext().setAuthentication(authentication);
-        final String token = jwtTokenUtil.generateToken(authentication);
-        return ResponseEntity.ok(new AuthTokenDTO(token));
+    public ResponseEntity<AuthTokenDTO> login(@RequestBody @Validated LoginDTO login) {
+        if (this.authenticationService.isLoginSuccess(login)) {
+            final Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            login.getEmail(),
+                            login.getPassword()
+                    )
+            );
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+            final String token = jwtTokenUtil.generateToken(authentication);
+            return ResponseEntity.ok(new AuthTokenDTO(token));
+        }
+        throw new UsernameNotFoundException("Login failed");
     }
 
     @PostMapping("/register")
