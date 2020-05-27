@@ -50,5 +50,4 @@ public class UserController {
         return new ApiData<>(this.userMapper.toUserDTO(this.userService.reverseStatusUserFollowId(id)));
     }
 
-
 }

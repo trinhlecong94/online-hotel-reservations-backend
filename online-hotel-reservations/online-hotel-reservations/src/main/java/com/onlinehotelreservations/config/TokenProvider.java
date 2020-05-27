@@ -1,7 +1,10 @@
 package com.onlinehotelreservations.config;
 
+import com.onlinehotelreservations.entity.UserEntity;
+import com.onlinehotelreservations.repository.UserRepository;
 import com.onlinehotelreservations.shared.Constants;
 import io.jsonwebtoken.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,6 +23,10 @@ import java.util.stream.Collectors;
 @Component
 @Configuration
 public class TokenProvider {
+
+    @Autowired
+    private UserRepository userRepository;
+
     @Value("${jwt-key}")
     private String signingKey;
 
@@ -52,10 +59,14 @@ public class TokenProvider {
         final String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
                 .collect(Collectors.joining(","));
+        final UserEntity userEntity = this.userRepository.findByEmail(authentication.getName()).get();
 
         return Jwts.builder()
                 .setSubject(authentication.getName())
                 .claim(Constants.AUTHORITIES_KEY, authorities)
+                .claim(Constants.FIRST_NAME_KEY, userEntity.getFirstName())
+                .claim(Constants.LAST_NAME_KEY, userEntity.getLastName())
+                .claim(Constants.BIRTH_DAY_KEY, userEntity.getBirthday())
                 .signWith(SignatureAlgorithm.HS256, signingKey)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + Constants.ACCESS_TOKEN_VALIDITY_SECONDS * 1000))

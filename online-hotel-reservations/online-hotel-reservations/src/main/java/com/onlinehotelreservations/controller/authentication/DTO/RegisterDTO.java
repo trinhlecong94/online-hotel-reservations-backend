@@ -41,6 +41,8 @@ public class RegisterDTO {
     private String lastName;
 
     @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @NotBlank(message = "Username can't be blank")
+    @NotNull
     private Date birthday;
 
     @NotBlank(message = "Phone is required")
