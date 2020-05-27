@@ -40,7 +40,7 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@RequestBody LoginDTO login) {
         final Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
-                        login.getUsername(),
+                        login.getEmail(),
                         login.getPassword()
                 )
         );

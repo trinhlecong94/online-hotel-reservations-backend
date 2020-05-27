@@ -25,9 +25,8 @@ public class UserDTO {
     private int id;
 
     @NotBlank(message = "Username can't be blank")
-    @Pattern(regexp = "^\\S*$", message = "Username can't be white spaces")
-    @Size(min = 8, message = "Username must be 8 characters")
-    private String userName;
+    @Pattern(regexp = "^(([^<>()\\[\\]\\\\.,;:\\s@\"]+(\\.[^<>()\\[\\]\\\\.,;:\\s@\"]+)*)|(\".+\"))@((\\[[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\])|(([a-zA-Z\\-0-9]+\\.)+[a-zA-Z]{2,}))$", message = "Email not match")
+    private String email;
 
     private Set<RoleEntity> roleEntities;
 

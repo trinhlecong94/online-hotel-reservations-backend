@@ -11,7 +11,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -29,16 +28,9 @@ public class UserEntity implements Serializable {
     private int id;
 
     @Column(nullable = false, unique = true)
-    @NotBlank(message = "Username can't be blank")
-    @Pattern(regexp = "^\\S*$", message = "Username can't be white spaces")
-    @Size(min = 8, message = "Username must be 8 characters")
-    private String userName;
+    private String email;
 
     @Column(nullable = false)
-    @NotBlank(message = "password can't be blank")
-    @Pattern(regexp = "(?=^.{8,}$)((?=.*\\d)|(?=.*\\W+))(?![.\\n])(?=.*[A-Z])(?=.*[a-z]).*$",
-            message = "Password must be 8 characters including 1 uppercase letter, 1 lowercase letter and numeric characters")
-    @NotNull
     private String password;
 
     @ManyToMany(fetch = FetchType.EAGER)

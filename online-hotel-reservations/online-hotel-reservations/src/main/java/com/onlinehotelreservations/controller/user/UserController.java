@@ -4,17 +4,13 @@ import com.onlinehotelreservations.controller.authentication.AuthenticationMappe
 import com.onlinehotelreservations.controller.authentication.DTO.RegisterDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.service.UserService;
-import com.onlinehotelreservations.shared.Constants;
-import com.onlinehotelreservations.shared.enums.Role;
 import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import javax.websocket.server.PathParam;
 import java.util.List;
 
 

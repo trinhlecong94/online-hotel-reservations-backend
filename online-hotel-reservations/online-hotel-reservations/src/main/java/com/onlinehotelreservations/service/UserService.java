@@ -36,7 +36,7 @@ public class UserService {
 
     public UserEntity addNewUser(UserEntity userEntity) {
 
-        Optional<UserEntity> userEntityFromDataBase = this.userRepository.findByUserName(userEntity.getUserName());
+        Optional<UserEntity> userEntityFromDataBase = this.userRepository.findByEmail(userEntity.getEmail());
 
         if (userEntityFromDataBase.isPresent()) {
             throw new UserIsExistsException(userEntityFromDataBase.get().getId());
@@ -52,7 +52,7 @@ public class UserService {
     }
 
     public UserEntity editUser(UserEntity user) {
-        Optional<UserEntity> userGetFromDatabase = this.userRepository.findByUserName(user.getUserName());
+        Optional<UserEntity> userGetFromDatabase = this.userRepository.findByEmail(user.getEmail());
 
         if (!userGetFromDatabase.isPresent()) {
             throw new UserIsNotExistsException(user.getId());

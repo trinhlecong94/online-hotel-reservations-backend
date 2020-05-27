@@ -92,6 +92,7 @@
                 <configuration>
                     <source>1.8</source> <!-- depending on your project -->
                     <target>1.8</target> <!-- depending on your project -->
+
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>
@@ -106,8 +107,12 @@
                     </annotationProcessorPaths>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
         </plugins>
-        <finalName>online_hotel_reservation</finalName>
+        <finalName>reservation</finalName>
     </build>
 
 </project>

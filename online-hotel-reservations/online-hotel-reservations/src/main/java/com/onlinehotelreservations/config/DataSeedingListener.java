@@ -40,13 +40,13 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
     }
 
     private void addUserIfMissing(String username, String password, Role... roles) {
-        if (!userRepository.findByUserName(username).isPresent()) {
+        if (!userRepository.findByEmail(username).isPresent()) {
 
             Set<RoleEntity> roleIsExists = new HashSet<>();
             for (Role role : roles) {
                 roleIsExists.add(roleRepository.findByName(role.toString()));
             }
-            userRepository.save(UserEntity.builder().userName(username).password(new BCryptPasswordEncoder().encode(password))
+            userRepository.save(UserEntity.builder().email(username).password(new BCryptPasswordEncoder().encode(password))
                     .roleEntities(roleIsExists)
                     .firstName("khanh")
                     .lastName("nguyen")
@@ -61,8 +61,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
 
         addRoleIfMissing(Role.ROLE_ADMIN);
         addRoleIfMissing(Role.ROLE_USER);
-        addUserIfMissing("user10251025", "123456789aaA", Role.ROLE_USER);
-        addUserIfMissing("admin10251025", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
+        addUserIfMissing("khanh1025@gmail.com", "123456789aaA", Role.ROLE_USER);
+        addUserIfMissing("khanhadmin1025@gmail.com", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
 
         if (signingKey == null || signingKey.length() == 0) {
             String jws = Jwts.builder()
