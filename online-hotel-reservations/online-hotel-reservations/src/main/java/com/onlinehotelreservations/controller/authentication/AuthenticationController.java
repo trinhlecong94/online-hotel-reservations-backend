@@ -4,6 +4,7 @@ import com.onlinehotelreservations.config.TokenProvider;
 import com.onlinehotelreservations.controller.authentication.DTO.AuthTokenDTO;
 import com.onlinehotelreservations.controller.authentication.DTO.LoginDTO;
 import com.onlinehotelreservations.controller.authentication.DTO.RegisterDTO;
+import com.onlinehotelreservations.controller.authentication.exception.PasswordLoginFailedException;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.service.AuthService;
@@ -36,16 +37,20 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthTokenDTO> login(@RequestBody @Validated LoginDTO login) {
-        if (this.authenticationService.isLoginSuccess(login)) {
-            final Authentication authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            login.getEmail(),
-                            login.getPassword()
-                    )
-            );
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-            final String token = jwtTokenUtil.generateToken(authentication);
-            return ResponseEntity.ok(new AuthTokenDTO(token));
+        if (this.authenticationService.isHandleEmail(login.getEmail())) {
+            try {
+                final Authentication authentication = authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                login.getEmail(),
+                                login.getPassword()
+                        )
+                );
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+                final String token = jwtTokenUtil.generateToken(authentication);
+                return ResponseEntity.ok(new AuthTokenDTO(token));
+            } catch (Exception e) {
+                throw new PasswordLoginFailedException();
+            }
         }
         throw new UsernameNotFoundException("Login failed");
     }

@@ -20,13 +20,10 @@ public class AuthService {
 
     private final UserRepository userRepository;
 
-    public boolean isLoginSuccess(LoginDTO loginDTO) {
-        Optional<UserEntity> userEntity = this.userRepository.findByEmail(loginDTO.getEmail());
+    public boolean isHandleEmail(String email) {
+        Optional<UserEntity> userEntity = this.userRepository.findByEmail(email);
         if (!userEntity.isPresent()) {
             throw new EmailLoginFailedException();
-        }
-        if (!new BCryptPasswordEncoder().encode(loginDTO.getPassword()).equals(userEntity.get().getPassword())) {
-            throw new PasswordLoginFailedException();
         }
         return true;
     }
