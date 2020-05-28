@@ -18,4 +18,9 @@ public class AuthenticationException {
     public ResponseEntity<Object> exception(PasswordLoginFailedException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.FORBIDDEN, exception));
     }
+
+    @ExceptionHandler(value = InActiveStatusUserException.class)
+    public ResponseEntity<Object> exception(InActiveStatusUserException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.FORBIDDEN, exception));
+    }
 }

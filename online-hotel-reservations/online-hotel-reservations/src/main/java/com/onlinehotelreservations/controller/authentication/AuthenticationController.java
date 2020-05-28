@@ -37,7 +37,8 @@ public class AuthenticationController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthTokenDTO> login(@RequestBody @Validated LoginDTO login) {
-        if (this.authenticationService.isHandleEmail(login.getEmail())) {
+        if (this.authenticationService.isHandleEmail(login.getEmail()) &&
+        this.authenticationService.isHandleStatus(login.getEmail())) {
             try {
                 final Authentication authentication = authenticationManager.authenticate(
                         new UsernamePasswordAuthenticationToken(

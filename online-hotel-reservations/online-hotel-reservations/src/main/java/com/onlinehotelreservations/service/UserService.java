@@ -84,6 +84,24 @@ public class UserService {
         return userEntity;
     }
 
+    public List<UserEntity> searchUsers(String keySearch) {
+        List<UserEntity> userEntities = this.userRepository.findUsersByKeyword(keySearch);
+        return userEntities;
+    }
+
+    public UserEntity upToAdminFollowId(int id) {
+        if (!this.userRepository.existsById(id)) {
+            throw new UserIsNotExistsException(id);
+        }
+        UserEntity userEntity = this.userRepository.findById(id).get();
+
+        RoleEntity roleEntity = this.roleRepository.findByName(Role.ROLE_ADMIN.toString());
+        userEntity.setRoleEntities(new HashSet<>(Arrays.asList(roleEntity)));
+
+        this.userRepository.save(userEntity);
+        return userEntity;
+    }
+
     public UserEntity holdValueDefault(UserEntity userChange, UserEntity user) {
         userChange.setRoleEntities(user.getRoleEntities());
         userChange.setId(user.getId());

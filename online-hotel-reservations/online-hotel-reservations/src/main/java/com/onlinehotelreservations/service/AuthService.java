@@ -2,9 +2,11 @@ package com.onlinehotelreservations.service;
 
 import com.onlinehotelreservations.controller.authentication.DTO.LoginDTO;
 import com.onlinehotelreservations.controller.authentication.exception.EmailLoginFailedException;
+import com.onlinehotelreservations.controller.authentication.exception.InActiveStatusUserException;
 import com.onlinehotelreservations.controller.authentication.exception.PasswordLoginFailedException;
 import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.UserRepository;
+import com.onlinehotelreservations.shared.enums.Status;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -24,6 +26,16 @@ public class AuthService {
         Optional<UserEntity> userEntity = this.userRepository.findByEmail(email);
         if (!userEntity.isPresent()) {
             throw new EmailLoginFailedException();
+        }
+        return true;
+    }
+
+    public boolean isHandleStatus(String email) {
+        Optional<UserEntity> userEntity = this.userRepository.findByEmail(email);
+        if(userEntity.isPresent()) {
+            if(userEntity.get().getStatus().equals(Status.INACTIVE)) {
+                throw new InActiveStatusUserException(email);
+            }
         }
         return true;
     }

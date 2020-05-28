@@ -35,4 +35,7 @@ public class FeedbackEntity implements Serializable {
     @NotNull
     private UserEntity user;
 
+    @OneToOne
+    @NotNull
+    private BrandEntity brandEntity;
 }

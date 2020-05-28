@@ -5,6 +5,7 @@ import com.onlinehotelreservations.controller.authentication.DTO.RegisterDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.service.UserService;
 import com.onlinehotelreservations.shared.model.ApiData;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
@@ -50,4 +51,15 @@ public class UserController {
         return new ApiData<>(this.userMapper.toUserDTO(this.userService.reverseStatusUserFollowId(id)));
     }
 
+    @Secured("ROLE_ADMIN")
+    @GetMapping("/search")
+    public ApiData<List<UserDTO>> searchUsers(@RequestParam(name = "valueSearch") String valueSearch) {
+        return new ApiData<>(this.userMapper.toUserDTOs(this.userService.searchUsers(valueSearch)));
+    }
+
+    @Secured("ROLE_ADMIN")
+    @PatchMapping("/{id}/admin")
+    public ApiData<UserDTO> upToAdmin(@PathVariable("id") int id) {
+        return new ApiData<>(this.userMapper.toUserDTO(this.userService.upToAdminFollowId(id)));
+    }
 }

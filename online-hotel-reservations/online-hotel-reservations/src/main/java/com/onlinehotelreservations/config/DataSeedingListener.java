@@ -5,6 +5,7 @@ import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.RoleRepository;
 import com.onlinehotelreservations.repository.UserRepository;
 import com.onlinehotelreservations.shared.enums.Role;
+import com.onlinehotelreservations.shared.enums.Status;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,11 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         addRoleIfMissing(Role.ROLE_USER);
         addUserIfMissing("khanh1025@gmail.com", "123456789aaA", Role.ROLE_USER);
         addUserIfMissing("khanhadmin1025@gmail.com", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
+
+        UserEntity userEntitya = this.userRepository.findByEmail("khanhadmin1025@gmail.com")
+                .get();
+        userEntitya.setPassword(new BCryptPasswordEncoder().encode("123456789aaA"));
+        this.userRepository.save(userEntitya);
 
         if (signingKey == null || signingKey.length() == 0) {
             String jws = Jwts.builder()

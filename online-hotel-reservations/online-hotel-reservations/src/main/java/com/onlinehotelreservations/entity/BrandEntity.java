@@ -5,12 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.List;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -28,4 +24,14 @@ public class BrandEntity implements Serializable {
     @NotNull
     private String name;
 
+    private String imgLink;
+
+    private String address;
+
+    @ManyToOne
+    @JoinColumn
+    private HotelEntity hotelEntity;
+
+    @OneToMany(mappedBy = "brandEntity", cascade = CascadeType.ALL)
+    private List<FeedbackEntity> feedbackEntities;
 }
