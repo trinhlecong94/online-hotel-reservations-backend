@@ -5,11 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import java.util.Set;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -26,4 +23,30 @@ public class RoomTypeEntity implements Serializable {
     @NotNull
     private String name;
 
+    @NotNull
+    private double price;
+
+    @NotNull
+    private String type;
+
+    @NotNull
+    private double size;
+
+    @NotNull
+    private double capacity;
+
+    @NotNull
+    private double description;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private Set<ImageEntity> images;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private Set<ExtraEntity> extras;
+
 }
+
+//    @ElementCollection
+//    @CollectionTable(name = "extras", joinColumns = @JoinColumn(name = "id"))
+//    @Column(name = "extras")
+//    private Set<String> extras;
