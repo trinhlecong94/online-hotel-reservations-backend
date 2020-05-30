@@ -4,6 +4,8 @@ import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
 import com.onlinehotelreservations.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +21,10 @@ public class HotelController {
     private final HotelService hotelService;
 
     @PostMapping
-    public HotelDTO addNewHotel(@RequestBody HotelDTO hotelDTO) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public HotelDTO addNewHotel(@RequestBody @Validated HotelDTO hotelDTO) {
         return this.hotelMapper.toHotelDTO(this.hotelService.addNewHotel(
-                this.hotelMapper.toHotelEntities(hotelDTO)
+                this.hotelMapper.toHotelEntity(hotelDTO)
         ));
     }
 
@@ -30,4 +33,34 @@ public class HotelController {
         return this.hotelMapper.toHotelDTOs(this.hotelService.getAllHotel());
     }
 
+    @GetMapping("/{id}")
+    public HotelDTO getHotelFollowID(@PathVariable("id") int id) {
+        return this.hotelMapper.toHotelDTO(
+                this.hotelService.getHotelFollowID(id)
+        );
+    }
+
+    @PutMapping("/{id}")
+    public HotelDTO editHotelFollowID(@PathVariable("id") int id, @RequestBody @Validated HotelDTO hotelDTO) {
+        hotelDTO.setId(id);
+        return this.hotelMapper.toHotelDTO(
+                this.hotelService.editHotel(
+                        this.hotelMapper.toHotelEntity(hotelDTO)
+                )
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    public HotelDTO deleteHotelFollowID(@PathVariable("id") int id) {
+        return this.hotelMapper.toHotelDTO(
+                this.hotelService.deleteHotelFollowID(id)
+        );
+    }
+
+    @GetMapping("/search")
+    public List<HotelDTO> searchHotels(@RequestParam(name = "valueSearch") String valueSearch) {
+        return this.hotelMapper.toHotelDTOs(
+                this.hotelService.searchHotelFollowKeyword(valueSearch)
+        );
+    }
 }

@@ -19,7 +19,7 @@ public abstract class HotelMapper {
     @Autowired
     private BrandService brandService;
 
-    public abstract HotelEntity toHotelEntities(HotelDTO hotelDTO);
+    public abstract HotelEntity toHotelEntity(HotelDTO hotelDTO);
 
     @Mapping(source = ".", target = "brands", qualifiedByName = "mapToBrandDTOs")
     public abstract HotelDTO toHotelDTO(HotelEntity hotelEntity);
