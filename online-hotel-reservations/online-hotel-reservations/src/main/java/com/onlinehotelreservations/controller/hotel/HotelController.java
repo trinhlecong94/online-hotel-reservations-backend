@@ -29,4 +29,5 @@ public class HotelController {
     public List<HotelDTO> getAllHotel() {
         return this.hotelMapper.toHotelDTOs(this.hotelService.getAllHotel());
     }
+
 }
