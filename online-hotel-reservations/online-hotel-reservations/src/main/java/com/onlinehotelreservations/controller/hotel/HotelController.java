@@ -2,12 +2,11 @@ package com.onlinehotelreservations.controller.hotel;
 
 import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
 import com.onlinehotelreservations.service.HotelService;
-import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Set;
+import java.util.List;
 
 
 @Slf4j
@@ -26,4 +25,8 @@ public class HotelController {
         ));
     }
 
+    @GetMapping
+    public List<HotelDTO> getAllHotel() {
+        return this.hotelMapper.toHotelDTOs(this.hotelService.getAllHotel());
+    }
 }

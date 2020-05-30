@@ -32,6 +32,6 @@ public class BrandEntity implements Serializable {
     @JoinColumn
     private HotelEntity hotelEntity;
 
-    @OneToMany(mappedBy = "brandEntity", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "brandEntity")
     private List<FeedbackEntity> feedbackEntities;
 }

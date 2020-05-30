@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -24,6 +25,6 @@ public class HotelEntity implements Serializable {
     @NotNull
     private String name;
 
-    @OneToMany(mappedBy = "hotelEntity", cascade = CascadeType.ALL)
-    private Set<BrandEntity> brandEntities;
+    @OneToMany(mappedBy = "hotelEntity")
+    private List<BrandEntity> brandEntities;
 }

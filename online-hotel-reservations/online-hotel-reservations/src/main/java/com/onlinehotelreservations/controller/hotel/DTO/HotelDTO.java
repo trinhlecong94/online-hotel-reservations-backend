@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Set;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -20,17 +20,13 @@ public class HotelDTO {
     @NotBlank
     private String name;
 
-    private Set<Brand> brands;
+    private List<Brand> brands;
 
     @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
     public static class Brand {
         @NotNull
         private int id;
 
-        @NotNull
-        @NotBlank
         private String name;
     }
 }

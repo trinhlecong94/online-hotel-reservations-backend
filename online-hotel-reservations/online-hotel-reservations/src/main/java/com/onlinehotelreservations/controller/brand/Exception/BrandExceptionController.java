@@ -14,4 +14,9 @@ public class BrandExceptionController {
     public ResponseEntity<Object> exception(BrandNotFoundException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.NOT_FOUND, exception));
     }
+
+    @ExceptionHandler(value = NameBrandIsExistException.class)
+    public ResponseEntity<Object> exception(NameBrandIsExistException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
+    }
 }

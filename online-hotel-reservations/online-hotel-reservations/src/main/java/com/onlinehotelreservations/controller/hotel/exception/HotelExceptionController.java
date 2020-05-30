@@ -13,4 +13,9 @@ public class HotelExceptionController {
     public ResponseEntity<Object> exception(HotelNotFoundException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.NOT_FOUND, exception));
     }
+
+    @ExceptionHandler(value = NameHotelIsExistException.class)
+    public ResponseEntity<Object> exception(NameHotelIsExistException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
+    }
 }
