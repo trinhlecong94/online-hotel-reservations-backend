@@ -1,4 +1,4 @@
-package com.onlinehotelreservations.controller.user.exception;
+package com.onlinehotelreservations.controller.promo.exception;
 
 import com.onlinehotelreservations.shared.Response;
 import com.onlinehotelreservations.shared.model.ApiError;
@@ -8,19 +8,19 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
-public class UserExceptionController {
-    @ExceptionHandler(value = UserNotFoundException.class)
-    public ResponseEntity<Object> exception(UserNotFoundException exception) {
+public class PromoExceptionController {
+    @ExceptionHandler(value = PromoNotFoundException.class)
+    public ResponseEntity<Object> exception(PromoNotFoundException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.NOT_FOUND, exception));
     }
 
-    @ExceptionHandler(value = UserIsExistsException.class)
-    public ResponseEntity<Object> exception(UserIsExistsException exception) {
+    @ExceptionHandler(value = PromoIsExistsException.class)
+    public ResponseEntity<Object> exception(PromoIsExistsException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
     }
 
-    @ExceptionHandler(value = UserIsNotExistsException.class)
-    public ResponseEntity<Object> exception(UserIsNotExistsException exception) {
+    @ExceptionHandler(value = PromoIsNotExistsException.class)
+    public ResponseEntity<Object> exception(PromoIsNotExistsException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.BAD_GATEWAY, exception));
     }
 }

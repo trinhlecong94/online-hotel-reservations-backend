@@ -34,7 +34,7 @@ public class RoomTypeDTO {
     private double capacity;
 
     @NotNull
-    private double description;
+    private String description;
 
     private Set<ImageEntity> images;
 

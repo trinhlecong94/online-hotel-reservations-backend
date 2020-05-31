@@ -36,7 +36,7 @@ public class RoomTypeEntity implements Serializable {
     private double capacity;
 
     @NotNull
-    private double description;
+    private String description;
 
     @OneToMany(cascade=CascadeType.ALL)
     private Set<ImageEntity> images;
