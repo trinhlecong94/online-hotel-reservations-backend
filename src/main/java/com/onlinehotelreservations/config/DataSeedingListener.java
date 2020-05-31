@@ -53,6 +53,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                     .lastName("nguyen")
                     .phone("0382189922")
                     .birthday(new Date())
+                    .status(Status.ACTIVE)
                     .build());
         }
     }
@@ -65,10 +66,10 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         addUserIfMissing("khanh1025@gmail.com", "123456789aaA", Role.ROLE_USER);
         addUserIfMissing("khanhadmin1025@gmail.com", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
 
-        UserEntity userEntitya = this.userRepository.findByEmail("khanhadmin1025@gmail.com")
-                .get();
-        userEntitya.setPassword(new BCryptPasswordEncoder().encode("123456789aaA"));
-        this.userRepository.save(userEntitya);
+        for(int i = 0; i< 15; ++i) {
+            String username = "khanh1025" + i +"@gmail.com";
+            addUserIfMissing(username, "123456789aaA", Role.ROLE_ADMIN, Role.ROLE_USER);
+        }
 
         if (signingKey == null || signingKey.length() == 0) {
             String jws = Jwts.builder()
