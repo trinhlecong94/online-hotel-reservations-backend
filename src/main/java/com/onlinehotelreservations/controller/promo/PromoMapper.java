@@ -13,22 +13,6 @@ import java.util.stream.Collectors;
 
 
 public abstract class PromoMapper {
-    @Autowired
-    private RoomTypeService roomTypeService;
 
-    @Mapping(source = "hotelEntity.id", target = "hotel.id")
-    @Mapping(source = "hotelEntity.name", target = "hotel.name")
-    public abstract BrandDTO toBrandDTO(BrandEntity brandEntity);
-
-    @Mapping(source = ".", target = "hotelEntity", qualifiedByName = "mapToHotelEntity")
-    public abstract BrandEntity toBrandEntity(BrandDTO brandDTO);
-
-    public List<BrandDTO> toBrandDTOs(List<BrandEntity> brandEntities) {
-        return brandEntities.parallelStream().map(this::toBrandDTO).collect(Collectors.toList());
-    }
-
-    public HotelEntity mapToHotelEntity(final BrandDTO brandDTO) {
-        return this.hotelService.getHotelFollowID(brandDTO.getHotel().getId());
-    }
 }
 
