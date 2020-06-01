@@ -2,6 +2,7 @@ package com.onlinehotelreservations.controller.roomtype.DTO;
 
 import com.onlinehotelreservations.entity.ExtraEntity;
 import com.onlinehotelreservations.entity.ImageEntity;
+import com.onlinehotelreservations.entity.ThumbnailEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,5 +40,7 @@ public class RoomTypeDTO {
     private Set<ImageEntity> images;
 
     private Set<ExtraEntity> extras;
+
+    private Set<ThumbnailEntity> thumbnails;
 
 }
