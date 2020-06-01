@@ -40,4 +40,8 @@ public class RoomTypeDTO {
 
     private Set<ExtraEntity> extras;
 
+    @NotNull
+    private String thumbnail;
+
+
 }

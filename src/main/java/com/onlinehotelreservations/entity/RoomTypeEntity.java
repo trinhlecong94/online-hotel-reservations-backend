@@ -45,6 +45,9 @@ public class RoomTypeEntity implements Serializable {
     @OneToMany(cascade=CascadeType.ALL)
     private Set<ExtraEntity> extras;
 
+    @NotNull
+    private String thumbnail;
+
 }
 
 //    @ElementCollection
