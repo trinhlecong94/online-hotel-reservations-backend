@@ -50,7 +50,3 @@ public class RoomTypeEntity implements Serializable {
 
 }
 
-//    @ElementCollection
-//    @CollectionTable(name = "extras", joinColumns = @JoinColumn(name = "id"))
-//    @Column(name = "extras")
-//    private Set<String> extras;

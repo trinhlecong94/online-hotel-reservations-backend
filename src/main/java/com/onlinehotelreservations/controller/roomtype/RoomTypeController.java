@@ -45,4 +45,8 @@ public class RoomTypeController {
         this.roomTypeService.deleteRoomTypeFollowId(id);
     }
 
+    @GetMapping("/search")
+    public ApiData<List<RoomTypeDTO>> searchUsers(@RequestParam(name = "valueSearch") String valueSearch) {
+        return new ApiData<>(this.roomTypeMapper.toRoomTypeDTOs(this.roomTypeService.searchRoomTypes(valueSearch)));
+    }
 }

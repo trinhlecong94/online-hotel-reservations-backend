@@ -4,9 +4,11 @@ import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeIsExist
 import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeIsNotExistsException;
 import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeNotFoundException;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
+import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.RoomTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,17 +26,17 @@ public class RoomTypeService {
     }
 
     public List<RoomTypeEntity> getAllRoomType() {
-        return this.roomTypeRepository.findAll();
+        return this.roomTypeRepository.findAll(Sort.by(Sort.Direction.ASC, "capacity"));
     }
 
-    public RoomTypeEntity editRoomType(RoomTypeEntity editroomType) {
+    public RoomTypeEntity editRoomType(RoomTypeEntity editRoomType) {
 
-        if (!this.roomTypeRepository.existsById(editroomType.getId())) {
-            throw new RomeTypeIsNotExistsException(editroomType.getId());
+        if (!this.roomTypeRepository.existsById(editRoomType.getId())) {
+            throw new RomeTypeIsNotExistsException(editRoomType.getId());
         }
 
-        this.roomTypeRepository.save(editroomType);
-        return this.roomTypeRepository.findById(editroomType.getId()).get();
+        this.roomTypeRepository.save(editRoomType);
+        return this.roomTypeRepository.findById(editRoomType.getId()).get();
     }
 
 
@@ -46,9 +48,14 @@ public class RoomTypeService {
     }
 
     public RoomTypeEntity addNewRoomType(RoomTypeEntity newRoomType) {
-        if(this.roomTypeRepository.existsById(newRoomType.getId())){
+        if (this.roomTypeRepository.existsById(newRoomType.getId())) {
             throw new RomeTypeIsExistsException(newRoomType.getId());
         }
         return this.roomTypeRepository.save(newRoomType);
+    }
+
+    public List<RoomTypeEntity> searchRoomTypes(String valueSearch) {
+        List<RoomTypeEntity> roomTypeEntities = this.roomTypeRepository.findRoomTypesByKeyword(valueSearch);
+        return roomTypeEntities;
     }
 }
