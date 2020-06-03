@@ -1,5 +1,6 @@
 package com.onlinehotelreservations.service;
 
+import com.onlinehotelreservations.controller.promo.exception.PromoIsExistsException;
 import com.onlinehotelreservations.controller.promo.exception.PromoNotFoundException;
 import com.onlinehotelreservations.entity.PromoEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
@@ -18,8 +19,9 @@ public class PromoService {
     private final RoomTypeService roomTypeService;
 
     public PromoEntity addNewPromo(PromoEntity newPromo) {
-        RoomTypeEntity roomType = roomTypeService.getRoomTypeFollowId(newPromo.getRoomType().getId());
-        newPromo.setRoomType(roomType);
+        if (this.promoRepository.existsById(newPromo.getId())) {
+            throw new PromoIsExistsException(newPromo.getId());
+        }
         return this.promoRepository.save(newPromo);
     }
 

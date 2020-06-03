@@ -1,13 +1,11 @@
-package com.onlinehotelreservations.controller.promo;
+package com.onlinehotelreservations.controller.room;
 
-import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
-import com.onlinehotelreservations.controller.promo.DTO.PromoDTO;
+import com.onlinehotelreservations.controller.brand.DTO.BrandDTO;
 import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
 import com.onlinehotelreservations.entity.HotelEntity;
-import com.onlinehotelreservations.entity.PromoEntity;
+import com.onlinehotelreservations.entity.RoomEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.service.BrandService;
-import com.onlinehotelreservations.service.PromoService;
+import com.onlinehotelreservations.service.HotelService;
 import com.onlinehotelreservations.service.RoomTypeService;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
@@ -19,26 +17,28 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Mapper(componentModel = "spring")
-public abstract class PromoMapper {
+public abstract class RoomMapper {
 
     @Autowired
-    private PromoService promoService;
+    private HotelService hotelService;
 
     @Autowired
     private RoomTypeService roomTypeService;
 
+    @Mapping(source = ".", target = "hotel", qualifiedByName = "mapToHotelEntity")
     @Mapping(source = ".", target = "roomType", qualifiedByName = "mapToRoomType")
-    public abstract PromoEntity toPromoEntity(PromoDTO promoDTO);
+    public abstract RoomEntity toRoomEntity(RoomDTO roomDTO);
 
-    public abstract PromoDTO toPromoDTO(PromoEntity promoEntity);
+    public abstract RoomDTO toRoomDTO(RoomEntity roomEntity);
 
-    public  List<PromoDTO> toPromoDT0s(List<PromoEntity> promoEntities){
-        return promoEntities.parallelStream().map(this::toPromoDTO).collect(Collectors.toList());
+    public List<RoomDTO> toRoomDT0s(List<RoomEntity> roomEntities){
+        return roomEntities.parallelStream().map(this::toRoomDTO).collect(Collectors.toList());
     };
 
+    public HotelEntity mapToHotelEntity(final RoomDTO roomDTO) {
+        return this.hotelService.getHotelFollowID(roomDTO.getHotel().getId());
+    }
     public RoomTypeEntity mapToRoomType(final RoomDTO roomDTO) {
         return this.roomTypeService.getRoomTypeFollowId(roomDTO.getRoomType().getId());
     }
-
 }
-

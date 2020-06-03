@@ -46,7 +46,7 @@ public class RoomTypeController {
     }
 
     @GetMapping("/search")
-    public ApiData<List<RoomTypeDTO>> searchUsers(@RequestParam(name = "valueSearch") String valueSearch) {
+    public ApiData<List<RoomTypeDTO>> searchRooms(@RequestParam(name = "valueSearch") String valueSearch) {
         return new ApiData<>(this.roomTypeMapper.toRoomTypeDTOs(this.roomTypeService.searchRoomTypes(valueSearch)));
     }
 }
