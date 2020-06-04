@@ -27,4 +27,7 @@ public class HotelEntity implements Serializable {
 
     @OneToMany(mappedBy = "hotelEntity")
     private List<BrandEntity> brandEntities;
+
+    @OneToMany(cascade=CascadeType.ALL)
+    private Set<ImageEntity> images;
 }
