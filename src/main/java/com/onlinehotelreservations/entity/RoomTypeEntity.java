@@ -36,6 +36,7 @@ public class RoomTypeEntity implements Serializable {
     private double capacity;
 
     @NotNull
+    @Lob
     private String description;
 
     @OneToMany(cascade=CascadeType.ALL)
@@ -44,9 +45,8 @@ public class RoomTypeEntity implements Serializable {
     @OneToMany(cascade=CascadeType.ALL)
     private Set<ExtraEntity> extras;
 
+    @NotNull
+    private String thumbnail;
+
 }
 
-//    @ElementCollection
-//    @CollectionTable(name = "extras", joinColumns = @JoinColumn(name = "id"))
-//    @Column(name = "extras")
-//    private Set<String> extras;
