@@ -26,8 +26,6 @@ public class HotelEntity implements Serializable {
     @NotNull
     private String name;
 
-    @NotNull
-    @NotBlank
     private String description;
 
     @OneToMany(mappedBy = "hotelEntity")
