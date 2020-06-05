@@ -8,6 +8,7 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -24,6 +25,10 @@ public class HotelEntity implements Serializable {
     @Column(nullable = false, length = 45, unique = true)
     @NotNull
     private String name;
+
+    @NotNull
+    @NotBlank
+    private String description;
 
     @OneToMany(mappedBy = "hotelEntity")
     private List<BrandEntity> brandEntities;

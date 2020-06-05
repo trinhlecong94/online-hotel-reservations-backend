@@ -25,6 +25,10 @@ public class HotelDTO {
     private List<Brand> brands;
 
     @NotNull
+    @NotBlank
+    private String description;
+
+    @NotNull
     private Set<ImageEntity> images;
 
     @Data
