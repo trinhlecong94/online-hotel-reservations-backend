@@ -1,6 +1,5 @@
 package com.onlinehotelreservations.service;
 
-import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
 import com.onlinehotelreservations.controller.hotel.exception.HotelNotFoundException;
 import com.onlinehotelreservations.controller.hotel.exception.NameHotelIsExistException;
 import com.onlinehotelreservations.entity.HotelEntity;
@@ -9,8 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor

@@ -10,9 +10,7 @@ import org.springframework.validation.ObjectError;
 
 import javax.validation.ConstraintViolation;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Data
 public class ApiError {

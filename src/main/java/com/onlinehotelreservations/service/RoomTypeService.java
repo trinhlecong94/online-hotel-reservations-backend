@@ -4,14 +4,13 @@ import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeIsExist
 import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeIsNotExistsException;
 import com.onlinehotelreservations.controller.roomtype.exception.RomeTypeNotFoundException;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.RoomTypeRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor

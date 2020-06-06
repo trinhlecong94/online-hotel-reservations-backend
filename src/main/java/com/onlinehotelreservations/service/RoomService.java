@@ -3,7 +3,6 @@ package com.onlinehotelreservations.service;
 import com.onlinehotelreservations.controller.room.exception.RoomIsExistsException;
 import com.onlinehotelreservations.controller.room.exception.RoomIsNotExistsException;
 import com.onlinehotelreservations.entity.RoomEntity;
-import com.onlinehotelreservations.entity.RoomTypeEntity;
 import com.onlinehotelreservations.repository.RoomRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,5 +45,9 @@ public class RoomService {
             throw new RoomIsNotExistsException(id);
         }
         this.roomRepository.deleteById(id);
+    }
+
+    public List<RoomEntity>getAllRoomByHotel(int hotelID) {
+        return this.roomRepository.getAllRoomByHotelID(hotelID);
     }
 }

@@ -1,12 +1,9 @@
 package com.onlinehotelreservations.controller.promo;
 
-import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
 import com.onlinehotelreservations.controller.promo.DTO.PromoDTO;
 import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
-import com.onlinehotelreservations.entity.HotelEntity;
 import com.onlinehotelreservations.entity.PromoEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.service.BrandService;
 import com.onlinehotelreservations.service.PromoService;
 import com.onlinehotelreservations.service.RoomTypeService;
 import lombok.extern.slf4j.Slf4j;
@@ -32,9 +29,9 @@ public abstract class PromoMapper {
 
     public abstract PromoDTO toPromoDTO(PromoEntity promoEntity);
 
-    public  List<PromoDTO> toPromoDT0s(List<PromoEntity> promoEntities){
+    public List<PromoDTO> toPromoDT0s(List<PromoEntity> promoEntities) {
         return promoEntities.parallelStream().map(this::toPromoDTO).collect(Collectors.toList());
-    };
+    }
 
     public RoomTypeEntity mapToRoomType(final RoomDTO roomDTO) {
         return this.roomTypeService.getRoomTypeFollowId(roomDTO.getRoomType().getId());

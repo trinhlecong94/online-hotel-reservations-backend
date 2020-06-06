@@ -21,7 +21,6 @@ public class RoomDTO {
     private int occupancyLimit;
 
     @NotNull
-    @OneToOne
     private RoomType roomType;
 
     @NotNull

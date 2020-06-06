@@ -1,29 +1,16 @@
 package com.onlinehotelreservations.controller.reservation.DTO;
 
-import com.onlinehotelreservations.entity.PromoEntity;
 import com.onlinehotelreservations.entity.RoleEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.shared.enums.Status;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-@RestController
-@Slf4j
-@RequiredArgsConstructor
-@RequestMapping("api/reservations")
+@Data
 public class ReservationDTO {
 
     private int id;
@@ -38,7 +25,7 @@ public class ReservationDTO {
     private List<Promo> promos;
 
     @Data
-    public static class User{
+    public static class User {
 
         private int id;
 
@@ -60,7 +47,7 @@ public class ReservationDTO {
     }
 
     @Data
-    public static class Promo{
+    public static class Promo {
 
         private int id;
 
