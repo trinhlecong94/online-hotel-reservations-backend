@@ -57,9 +57,13 @@ public class HotelController {
     }
 
     @GetMapping("/search")
-    public List<HotelDTO> searchHotels(@RequestParam(name = "valueSearch") String valueSearch) {
+    public List<HotelDTO> paginationHotels(
+            @RequestParam(name = "size") int size,
+            @RequestParam(name = "index") int index,
+            @RequestParam(name = "valueSearch") String valueSearch,
+            @RequestParam(name = "keySort") String valueSort) {
         return this.hotelMapper.toHotelDTOs(
-                this.hotelService.searchHotelFollowKeyword(valueSearch)
+                this.hotelService.paginationHotels(size, index, valueSearch, valueSort)
         );
     }
 }
