@@ -1,6 +1,7 @@
 package com.onlinehotelreservations.controller.hotel;
 
 import com.onlinehotelreservations.controller.hotel.DTO.HotelDTO;
+import com.onlinehotelreservations.controller.hotel.DTO.HotelPaginationDTO;
 import com.onlinehotelreservations.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,13 +58,20 @@ public class HotelController {
     }
 
     @GetMapping("/search")
-    public List<HotelDTO> paginationHotels(
+    public HotelPaginationDTO paginationHotels(
             @RequestParam(name = "size") int size,
             @RequestParam(name = "index") int index,
             @RequestParam(name = "valueSearch") String valueSearch,
             @RequestParam(name = "keySort") String valueSort) {
-        return this.hotelMapper.toHotelDTOs(
+
+        HotelPaginationDTO res = new HotelPaginationDTO();
+
+        res.setHotelDTOs(this.hotelMapper.toHotelDTOs(
                 this.hotelService.paginationHotels(size, index, valueSearch, valueSort)
-        );
+        ));
+
+        res.setCount(this.hotelService.getAllHotelFollowValueSearch(valueSearch).size());
+
+        return res;
     }
 }

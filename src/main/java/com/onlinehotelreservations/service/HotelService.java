@@ -11,7 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -64,6 +64,10 @@ public class HotelService {
     public List<HotelEntity> paginationHotels(int size, int index, String valueSearch, String keySort) {
         Pageable sortedPage = getPageableSort(index, size, keySort);
         return hotelRepository.paginationHotelsFollowValueSearch(valueSearch, sortedPage);
+    }
+
+    public List<HotelEntity> getAllHotelFollowValueSearch(String valueSearch) {
+        return this.hotelRepository.findAllHotelFollowValueSearch(valueSearch);
     }
 
     public Pageable getPageableSort(int index, int size, String keySort) {
