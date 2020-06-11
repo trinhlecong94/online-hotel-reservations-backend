@@ -1,6 +1,7 @@
 package com.onlinehotelreservations.controller.room;
 
 import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
+import com.onlinehotelreservations.controller.room.DTO.RoomStatusDTO;
 import com.onlinehotelreservations.service.RoomService;
 import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
@@ -16,6 +17,11 @@ import java.util.*;
 public class RoomController {
     private final RoomService roomService;
     private final RoomMapper roomMapper;
+
+    @GetMapping("/status/}")
+    public ApiData<List<RoomStatusDTO>> getAllRoomStatus() {
+        return new ApiData<>(this.roomMapper.RoomStatusDTOs(this.roomService.getAllRoom()));
+    }
 
     @GetMapping
     public ApiData<List<RoomDTO>> getAllRoom() {

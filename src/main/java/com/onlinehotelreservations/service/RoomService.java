@@ -50,4 +50,17 @@ public class RoomService {
     public List<RoomEntity>getAllRoomByHotel(int hotelID) {
         return this.roomRepository.getAllRoomByHotelID(hotelID);
     }
+
+    //true : co the dat cho
+    //false: ko the dat cho
+    public boolean getRoomStatus(int id) {
+        if (!this.roomRepository.existsById(id)){
+            throw new RoomIsNotExistsException(id);
+        }
+        RoomEntity roomFromDatabase = this.roomRepository.getRoomAvailable(id);
+        if (roomFromDatabase==null){
+            return false;
+        }
+        else return true;
+    }
 }

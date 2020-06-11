@@ -1,7 +1,6 @@
 package com.onlinehotelreservations.controller.promo;
 
 import com.onlinehotelreservations.controller.promo.DTO.PromoDTO;
-import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
 import com.onlinehotelreservations.entity.PromoEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
 import com.onlinehotelreservations.service.PromoService;
@@ -33,8 +32,9 @@ public abstract class PromoMapper {
         return promoEntities.parallelStream().map(this::toPromoDTO).collect(Collectors.toList());
     }
 
-    public RoomTypeEntity mapToRoomType(final RoomDTO roomDTO) {
-        return this.roomTypeService.getRoomTypeFollowId(roomDTO.getRoomType().getId());
+    public RoomTypeEntity mapToRoomType(final PromoDTO promoDTO) {
+        System.out.println("here"+promoDTO.getRoomType().getId());
+        return this.roomTypeService.getRoomTypeFollowId(promoDTO.getRoomType().getId());
     }
 
 }

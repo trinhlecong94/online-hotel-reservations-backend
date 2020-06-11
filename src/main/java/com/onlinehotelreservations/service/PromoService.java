@@ -3,13 +3,12 @@ package com.onlinehotelreservations.service;
 import com.onlinehotelreservations.controller.promo.exception.PromoIsExistsException;
 import com.onlinehotelreservations.controller.promo.exception.PromoNotFoundException;
 import com.onlinehotelreservations.entity.PromoEntity;
-import com.onlinehotelreservations.entity.RoomTypeEntity;
 import com.onlinehotelreservations.repository.PromoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -35,8 +34,6 @@ public class PromoService {
         if (!this.promoRepository.existsById(editPromo.getId())) {
             throw new PromoNotFoundException(editPromo.getId());
         }
-        RoomTypeEntity roomType = roomTypeService.getRoomTypeFollowId(editPromo.getRoomType().getId());
-        editPromo.setRoomType(roomType);
         return this.promoRepository.save(editPromo);
     }
 
