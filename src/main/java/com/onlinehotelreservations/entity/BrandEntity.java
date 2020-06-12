@@ -4,10 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-import java.util.List;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "brand")
@@ -27,6 +27,8 @@ public class BrandEntity implements Serializable {
     private String imgLink;
 
     private String address;
+
+    private  int floor;
 
     @ManyToOne
     @JoinColumn

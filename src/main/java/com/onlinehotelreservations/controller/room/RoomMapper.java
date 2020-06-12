@@ -2,10 +2,10 @@ package com.onlinehotelreservations.controller.room;
 
 import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
 import com.onlinehotelreservations.controller.room.DTO.RoomStatusDTO;
-import com.onlinehotelreservations.entity.HotelEntity;
+import com.onlinehotelreservations.entity.BrandEntity;
 import com.onlinehotelreservations.entity.RoomEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.service.HotelService;
+import com.onlinehotelreservations.service.BrandService;
 import com.onlinehotelreservations.service.RoomService;
 import com.onlinehotelreservations.service.RoomTypeService;
 import lombok.extern.slf4j.Slf4j;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public abstract class RoomMapper {
 
     @Autowired
-    private HotelService hotelService;
+    private BrandService brandService;
 
     @Autowired
     private RoomTypeService roomTypeService;
@@ -29,7 +29,7 @@ public abstract class RoomMapper {
     @Autowired
     private RoomService roomService;
 
-    @Mapping(source = ".", target = "hotel", qualifiedByName = "mapToHotelEntity")
+    @Mapping(source = ".", target = "brand", qualifiedByName = "mapToBrandEntity")
     @Mapping(source = ".", target = "roomType", qualifiedByName = "mapToRoomType")
     public abstract RoomEntity toRoomEntity(RoomDTO roomDTO);
 
@@ -39,8 +39,8 @@ public abstract class RoomMapper {
         return roomEntities.parallelStream().map(this::toRoomDTO).collect(Collectors.toList());
     };
 
-    public HotelEntity mapToHotelEntity(final RoomDTO roomDTO) {
-        return this.hotelService.getHotelFollowID(roomDTO.getHotel().getId());
+    public BrandEntity mapToBrandEntity(final RoomDTO roomDTO) {
+        return this.brandService.getBrandFollowID(roomDTO.getBrand().getId());
     }
 
     public RoomTypeEntity mapToRoomType(final RoomDTO roomDTO) {

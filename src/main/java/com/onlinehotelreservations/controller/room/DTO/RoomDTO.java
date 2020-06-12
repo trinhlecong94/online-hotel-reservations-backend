@@ -1,9 +1,12 @@
 package com.onlinehotelreservations.controller.room.DTO;
 
+import com.onlinehotelreservations.entity.FeedbackEntity;
+import com.onlinehotelreservations.entity.HotelEntity;
 import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Data
@@ -24,14 +27,26 @@ public class RoomDTO {
     private RoomType roomType;
 
     @NotNull
-    private Hotel hotel;
+    private Brand brand;
 
     @Data
-    public static class Hotel {
+    public static class Brand {
 
         private int id;
 
+        @Column(nullable = false, length = 45, unique = true)
+        @NotNull
         private String name;
+
+        private String imgLink;
+
+        private String address;
+
+        private  int floor;
+
+        private HotelEntity hotelEntity;
+
+        private List<FeedbackEntity> feedbackEntities;
     }
 
     @Data

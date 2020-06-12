@@ -24,6 +24,9 @@ public class BrandDTO {
     @NotNull
     private Hotel hotel;
 
+    @NotNull
+    private int floor;
+
     @Data
     public static class Hotel {
         @NotNull
