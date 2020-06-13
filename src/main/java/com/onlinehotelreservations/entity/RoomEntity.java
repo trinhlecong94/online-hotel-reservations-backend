@@ -26,9 +26,6 @@ public class RoomEntity implements Serializable {
     private int floor;
 
     @NotNull
-    private int occupancyLimit;
-
-    @NotNull
     @OneToOne
     private RoomTypeEntity roomType;
 

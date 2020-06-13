@@ -19,9 +19,6 @@ public class RoomDTO {
     private int floor;
 
     @NotNull
-    private int occupancyLimit;
-
-    @NotNull
     private RoomType roomType;
 
     @NotNull
