@@ -27,6 +27,10 @@ public class BrandDTO {
     @NotNull
     private int floor;
 
+    @NotNull
+    @NotBlank
+    private String desciption;
+
     @Data
     public static class Hotel {
         @NotNull

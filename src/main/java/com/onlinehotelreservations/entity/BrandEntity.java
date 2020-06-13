@@ -30,6 +30,8 @@ public class BrandEntity implements Serializable {
 
     private  int floor;
 
+    private String desciption;
+
     @ManyToOne
     @JoinColumn
     private HotelEntity hotelEntity;

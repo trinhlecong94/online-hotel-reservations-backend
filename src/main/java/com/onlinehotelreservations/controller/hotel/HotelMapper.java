@@ -32,9 +32,14 @@ public abstract class HotelMapper {
         List<HotelDTO.Brand> brands = new ArrayList<>();
         if (hotelEntity.getBrandEntities() != null && !hotelEntity.getBrandEntities().isEmpty()) {
             hotelEntity.getBrandEntities().stream().forEach(item -> {
-                HotelDTO.Brand brand = new HotelDTO.Brand();
-                brand.setId(item.getId());
-                brand.setName(item.getName());
+                HotelDTO.Brand brand = HotelDTO.Brand.builder()
+                        .address(item.getAddress())
+                        .floor(item.getFloor())
+                        .id(item.getId())
+                        .imgLink(item.getImgLink())
+                        .name(item.getName())
+                        .build();
+
                 brands.add(brand);
             });
         }

@@ -8,7 +8,8 @@ import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.*;
+import java.util.List;
+import java.util.Set;
 
 @Data
 @AllArgsConstructor
@@ -30,11 +31,24 @@ public class HotelDTO {
     @NotNull
     private Set<ImageEntity> images;
 
+
+
     @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
     public static class Brand {
         @NotNull
         private int id;
 
         private String name;
+
+        private int floor;
+
+        private String address;
+
+        private String imgLink;
+
+        private String desciption;
     }
 }
