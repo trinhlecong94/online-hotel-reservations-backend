@@ -8,7 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -47,10 +47,6 @@ public class RoomService {
         this.roomRepository.deleteById(id);
     }
 
-    public List<RoomEntity>getAllRoomByHotel(int hotelID) {
-        return this.roomRepository.getAllRoomByHotelID(hotelID);
-    }
-
     //true : co the dat cho
     //false: ko the dat cho
     public boolean getRoomStatus(int id) {
@@ -62,5 +58,15 @@ public class RoomService {
             return false;
         }
         else return true;
+    }
+
+    public List<RoomEntity> getAllRoomByBrand(int brandID) {
+        return this.roomRepository.getAllRoomByBrand(brandID);
+    }
+
+
+
+    public List<RoomEntity> searchRooms(String valueSearch) {
+        return this.roomRepository.searchRooms(valueSearch);
     }
 }

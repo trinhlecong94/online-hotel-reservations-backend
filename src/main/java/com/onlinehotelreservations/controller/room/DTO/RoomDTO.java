@@ -1,12 +1,10 @@
 package com.onlinehotelreservations.controller.room.DTO;
 
-import com.onlinehotelreservations.entity.FeedbackEntity;
-import com.onlinehotelreservations.entity.HotelEntity;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 
 @Data
@@ -44,9 +42,6 @@ public class RoomDTO {
 
         private  int floor;
 
-        private HotelEntity hotelEntity;
-
-        private List<FeedbackEntity> feedbackEntities;
     }
 
     @Data

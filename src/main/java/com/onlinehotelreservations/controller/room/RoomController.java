@@ -15,17 +15,24 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
+
     private final RoomService roomService;
+
     private final RoomMapper roomMapper;
 
-    @GetMapping("/status/}")
-    public ApiData<List<RoomStatusDTO>> getAllRoomStatus() {
-        return new ApiData<>(this.roomMapper.RoomStatusDTOs(this.roomService.getAllRoom()));
+    @GetMapping("/status/{valueSearch}")
+    public ApiData<List<RoomStatusDTO>> getAllRoomStatus(@PathVariable(name = "valueSearch") String valueSearch) {
+        return new ApiData<>(this.roomMapper.RoomStatusDTOs(this.roomService.searchRooms(valueSearch)));
     }
 
-    @GetMapping
-    public ApiData<List<RoomDTO>> getAllRoom() {
-        return new ApiData<>(this.roomMapper.toRoomDT0s(this.roomService.getAllRoom()));
+    @GetMapping("/search/{valueSearch}")
+    public ApiData<List<RoomDTO>> getAllRoomSearchByRoomNameAndBrandNameAndRoomTypeNameAndAddress(@PathVariable(name = "valueSearch") String valueSearch) {
+        return new ApiData<>(this.roomMapper.toRoomDT0s(this.roomService.searchRooms(valueSearch)));
+    }
+
+    @GetMapping("/brand/{brandID}")
+    public ApiData<List<RoomDTO>> getAllRoomByBrand(@PathVariable("brandID") int brandID) {
+        return new ApiData<>(this.roomMapper.toRoomDT0s(this.roomService.getAllRoomByBrand(brandID)));
     }
 
     @GetMapping("/{id}")

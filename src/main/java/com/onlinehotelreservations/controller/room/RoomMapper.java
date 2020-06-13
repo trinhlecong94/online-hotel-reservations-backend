@@ -55,7 +55,6 @@ public abstract class RoomMapper {
     }
 
     public boolean mapToRoomStatus(final RoomEntity roomEntity) {
-
         return this.roomService.getRoomStatus(roomEntity.getId());
     }
 }
