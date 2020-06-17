@@ -5,7 +5,7 @@ import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.RoleRepository;
 import com.onlinehotelreservations.repository.UserRepository;
 import com.onlinehotelreservations.shared.enums.Role;
-import com.onlinehotelreservations.shared.enums.Status;
+import com.onlinehotelreservations.shared.enums.UserStatus;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +53,7 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
                     .lastName("nguyen")
                     .phone("0382189922")
                     .birthday(new Date())
-                    .status(Status.ACTIVE)
+                    .status(UserStatus.ACTIVE)
                     .build());
         }
     }

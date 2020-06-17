@@ -8,7 +8,7 @@ import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.repository.RoleRepository;
 import com.onlinehotelreservations.repository.UserRepository;
 import com.onlinehotelreservations.shared.enums.Role;
-import com.onlinehotelreservations.shared.enums.Status;
+import com.onlinehotelreservations.shared.enums.UserStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -78,7 +78,7 @@ public class UserService {
             throw new UserIsNotExistsException(id);
         }
         UserEntity userEntity = this.userRepository.findById(id).get();
-        userEntity.setStatus(userEntity.getStatus() == Status.ACTIVE ? Status.INACTIVE : Status.ACTIVE);
+        userEntity.setStatus(userEntity.getStatus() == UserStatus.ACTIVE ? UserStatus.INACTIVE : UserStatus.ACTIVE);
         this.userRepository.save(userEntity);
 
         return userEntity;

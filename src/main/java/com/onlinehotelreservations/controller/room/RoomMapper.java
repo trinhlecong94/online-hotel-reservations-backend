@@ -13,7 +13,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -35,9 +35,9 @@ public abstract class RoomMapper {
 
     public abstract RoomDTO toRoomDTO(RoomEntity roomEntity);
 
-    public List<RoomDTO> toRoomDT0s(List<RoomEntity> roomEntities){
+    public List<RoomDTO> toRoomDT0s(List<RoomEntity> roomEntities) {
         return roomEntities.parallelStream().map(this::toRoomDTO).collect(Collectors.toList());
-    };
+    }
 
     public BrandEntity mapToBrandEntity(final RoomDTO roomDTO) {
         return this.brandService.getBrandFollowID(roomDTO.getBrand().getId());
@@ -47,14 +47,32 @@ public abstract class RoomMapper {
         return this.roomTypeService.getRoomTypeFollowId(roomDTO.getRoomType().getId());
     }
 
-    @Mapping(source = ".", target = "status", qualifiedByName = "mapToRoomStatus")
-    public abstract RoomStatusDTO toRoomStatusDTO(RoomEntity roomEntity);
+    public List<RoomStatusDTO> RoomStatusDTOs(Date startDate, Date endDate, int brandId) {
+        List<RoomStatusDTO> roomStatusDTOS = new ArrayList<>();
+        List<RoomEntity> roomEntities = this.roomService.getAllRoomByBrand(brandId);
 
-    public List<RoomStatusDTO> RoomStatusDTOs(List<RoomEntity> roomEntities){
-        return roomEntities.parallelStream().map(this::toRoomStatusDTO).collect(Collectors.toList());
+        Set<RoomTypeEntity> allRoomTypeInBrand = new HashSet<>();
+        for (RoomEntity roomEntity : roomEntities) {
+            allRoomTypeInBrand.add(roomEntity.getRoomType());
+        }
+
+        for (RoomTypeEntity roomType : allRoomTypeInBrand) {
+            List<RoomEntity> rooms = new ArrayList<>();
+            for (RoomEntity roomEntity : roomEntities) {
+                if (roomType.getId() == roomEntity.getRoomType().getId()) {
+                    rooms.add(roomEntity);
+                }
+            }
+            RoomStatusDTO roomStatusDTO = new RoomStatusDTO();
+            roomStatusDTO.setTotalRoom(rooms.size());
+            roomStatusDTO.setRoomType(roomType);
+            roomStatusDTO.setTotalRoomAvailable(
+                    this.roomService.getAllRoomAvailableByBandIdAndRoomTypeId(startDate, endDate, brandId, roomType.getId())
+                            .size()
+            );
+            roomStatusDTOS.add(roomStatusDTO);
+        }
+        return roomStatusDTOS;
     }
 
-    public boolean mapToRoomStatus(final RoomEntity roomEntity) {
-        return this.roomService.getRoomStatus(roomEntity.getId());
-    }
 }

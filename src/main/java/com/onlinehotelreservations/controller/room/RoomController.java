@@ -6,9 +6,11 @@ import com.onlinehotelreservations.service.RoomService;
 import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -20,9 +22,12 @@ public class RoomController {
 
     private final RoomMapper roomMapper;
 
-    @GetMapping("/status/{valueSearch}")
-    public ApiData<List<RoomStatusDTO>> getAllRoomStatus(@PathVariable(name = "valueSearch") String valueSearch) {
-        return new ApiData<>(this.roomMapper.RoomStatusDTOs(this.roomService.searchRooms(valueSearch)));
+    @GetMapping("/status/")
+    public ApiData<List<RoomStatusDTO>> getAllRoomStatus(
+            @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
+            @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
+            @RequestParam("brandId") int brandId) {
+        return new ApiData<>(this.roomMapper.RoomStatusDTOs(startDate,endDate,brandId));
     }
 
     @GetMapping("/search/{valueSearch}")

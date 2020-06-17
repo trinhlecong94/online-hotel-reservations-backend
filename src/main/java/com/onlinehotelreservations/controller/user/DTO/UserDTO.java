@@ -1,7 +1,7 @@
 package com.onlinehotelreservations.controller.user.DTO;
 
 import com.onlinehotelreservations.entity.RoleEntity;
-import com.onlinehotelreservations.shared.enums.Status;
+import com.onlinehotelreservations.shared.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +13,6 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.Set;
 
@@ -39,9 +38,9 @@ public class UserDTO {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;
 
     @NotBlank(message = "Phone is required")

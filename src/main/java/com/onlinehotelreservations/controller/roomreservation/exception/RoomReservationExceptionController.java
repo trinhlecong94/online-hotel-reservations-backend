@@ -19,6 +19,11 @@ public class RoomReservationExceptionController {
         return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
     }
 
+    @ExceptionHandler(value = ConflictException.class)
+    public ResponseEntity<Object> exception(ConflictException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.CONFLICT, exception));
+    }
+
     @ExceptionHandler(value = RoomReservationIsNotExistsException.class)
     public ResponseEntity<Object> exception(RoomReservationIsNotExistsException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.BAD_GATEWAY, exception));

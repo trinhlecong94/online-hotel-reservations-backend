@@ -1,11 +1,14 @@
 package com.onlinehotelreservations.controller.room.DTO;
 
 
+import com.onlinehotelreservations.entity.RoomTypeEntity;
 import lombok.Data;
 
 @Data
 public class RoomStatusDTO {
-    private int id;
+    private int totalRoom;
 
-    private boolean status;
+    private int totalRoomAvailable;
+
+    private RoomTypeEntity roomType;
 }

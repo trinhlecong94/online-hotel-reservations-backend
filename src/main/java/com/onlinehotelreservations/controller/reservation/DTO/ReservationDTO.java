@@ -2,9 +2,12 @@ package com.onlinehotelreservations.controller.reservation.DTO;
 
 import com.onlinehotelreservations.entity.RoleEntity;
 import com.onlinehotelreservations.entity.RoomTypeEntity;
-import com.onlinehotelreservations.shared.enums.Status;
+import com.onlinehotelreservations.shared.enums.ReservationStatus;
+import com.onlinehotelreservations.shared.enums.UserStatus;
 import lombok.Data;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +27,9 @@ public class ReservationDTO {
 
     private List<Promo> promos;
 
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status = ReservationStatus.UNPAID;
+
     @Data
     public static class User {
 
@@ -39,7 +45,7 @@ public class ReservationDTO {
 
         private String lastName;
 
-        private Status status = Status.ACTIVE;
+        private UserStatus status = UserStatus.ACTIVE;
 
         private Date birthday;
 

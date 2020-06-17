@@ -14,11 +14,13 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class RoomReservationDTO {
+public class RoomsReservationDTO {
 
     private int id;
 
-    private Room room;
+    private int brandId;
+
+    private int roomTypeId;
 
     private Reservation reservation;
 

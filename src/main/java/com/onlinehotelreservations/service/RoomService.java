@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -27,21 +28,21 @@ public class RoomService {
     }
 
     public RoomEntity editRoom(RoomEntity editRoom) {
-        if (!this.roomRepository.existsById(editRoom.getId())){
+        if (!this.roomRepository.existsById(editRoom.getId())) {
             throw new RoomIsNotExistsException(editRoom.getId());
         }
         return this.roomRepository.save(editRoom);
     }
 
     public RoomEntity addNewRoom(RoomEntity newRoom) {
-        if (this.roomRepository.existsById(newRoom.getId())){
+        if (this.roomRepository.existsById(newRoom.getId())) {
             throw new RoomIsExistsException(newRoom.getId());
         }
         return this.roomRepository.save(newRoom);
     }
 
     public void deleteRoom(int id) {
-        if (!this.roomRepository.existsById(id)){
+        if (!this.roomRepository.existsById(id)) {
             throw new RoomIsNotExistsException(id);
         }
         this.roomRepository.deleteById(id);
@@ -50,23 +51,33 @@ public class RoomService {
     //true : co the dat cho
     //false: ko the dat cho
     public boolean getRoomStatus(int id) {
-        if (!this.roomRepository.existsById(id)){
+        if (!this.roomRepository.existsById(id)) {
             throw new RoomIsNotExistsException(id);
         }
         RoomEntity roomFromDatabase = this.roomRepository.getRoomAvailable(id);
-        if (roomFromDatabase==null){
+        if (roomFromDatabase == null) {
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
     public List<RoomEntity> getAllRoomByBrand(int brandID) {
         return this.roomRepository.getAllRoomByBrand(brandID);
     }
 
-
-
     public List<RoomEntity> searchRooms(String valueSearch) {
         return this.roomRepository.searchRooms(valueSearch);
     }
+
+    public List<RoomEntity> getAllRoomAvailableByBandIdAndRoomTypeId(Date startDate, Date endDate, int BrandId, int RoomTypeId) {
+        startDate.setHours(14);
+        startDate.setMinutes(00);
+        startDate.setSeconds(00);
+
+        endDate.setHours(12);
+        endDate.setMinutes(00);
+        endDate.setSeconds(00);
+
+        return this.roomRepository.getAllRoomAvailableByBandIdAndRoomTypeId(startDate, endDate, BrandId, RoomTypeId);
+    }
+
 }

@@ -1,6 +1,7 @@
 package com.onlinehotelreservations.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,11 +32,11 @@ public class RoomReservationEntity {
     private ReservationEntity reservation;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
@@ -45,5 +46,8 @@ public class RoomReservationEntity {
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @JsonManagedReference(value = "products")
     private List<UserEntity> users;
+
+    @Enumerated(EnumType.STRING)
+    private RoomReservationStatus status = RoomReservationStatus.PENDING;
 
 }

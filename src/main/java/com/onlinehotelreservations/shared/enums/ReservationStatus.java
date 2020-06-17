@@ -1,5 +1,5 @@
 package com.onlinehotelreservations.shared.enums;
 
-public enum Status {
-    ACTIVE, INACTIVE
+public enum ReservationStatus {
+    PAID,UNPAID
 }

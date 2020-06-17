@@ -1,6 +1,6 @@
 package com.onlinehotelreservations.entity;
 
-import com.onlinehotelreservations.shared.enums.Status;
+import com.onlinehotelreservations.shared.enums.UserStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -50,9 +50,9 @@ public class UserEntity implements Serializable {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
-    private Status status = Status.ACTIVE;
+    private UserStatus status = UserStatus.ACTIVE;
 
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     @Temporal(TemporalType.DATE)
     private Date birthday;
 

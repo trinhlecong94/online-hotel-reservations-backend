@@ -29,7 +29,6 @@ public class PromoService {
                 new PromoNotFoundException(id));
     }
 
-
     public PromoEntity editPromo(PromoEntity editPromo) {
         if (!this.promoRepository.existsById(editPromo.getId())) {
             throw new PromoNotFoundException(editPromo.getId());
@@ -50,5 +49,9 @@ public class PromoService {
 
     public List<PromoEntity> getAllPromoStillActive() {
         return this.promoRepository.getAllPromoStillActive();
+    }
+
+    public PromoEntity getPromoByCodeStillActive(String code) {
+        return this.promoRepository.getPromoByCodeStillActive(code);
     }
 }

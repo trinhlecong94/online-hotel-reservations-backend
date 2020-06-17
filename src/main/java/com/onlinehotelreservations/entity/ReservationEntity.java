@@ -1,5 +1,6 @@
 package com.onlinehotelreservations.entity;
 
+import com.onlinehotelreservations.shared.enums.ReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -33,5 +34,8 @@ public class ReservationEntity implements Serializable {
             joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "promo_id", referencedColumnName = "id"))
     private List<PromoEntity> promos;
+
+    @Enumerated(EnumType.STRING)
+    private ReservationStatus status = ReservationStatus.UNPAID;
 
 }
