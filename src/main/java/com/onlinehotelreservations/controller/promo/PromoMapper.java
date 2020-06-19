@@ -33,7 +33,6 @@ public abstract class PromoMapper {
     }
 
     public RoomTypeEntity mapToRoomType(final PromoDTO promoDTO) {
-        System.out.println("here"+promoDTO.getRoomType().getId());
         return this.roomTypeService.getRoomTypeFollowId(promoDTO.getRoomType().getId());
     }
 

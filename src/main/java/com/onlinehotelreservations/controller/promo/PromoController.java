@@ -26,7 +26,7 @@ public class PromoController {
                 this.promoMapper.toPromoEntity(promoDTO))));
     }
 
-    @GetMapping("/id}")
+    @GetMapping("/{id}")
     public ApiData<PromoDTO> getPromoFollowID(@PathVariable("id") int id) {
         return new ApiData<>(this.promoMapper.toPromoDTO(this.promoService.getPromoFollowID(id)));
     }

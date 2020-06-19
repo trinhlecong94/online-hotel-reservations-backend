@@ -10,8 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 @EnableConfigurationProperties
 public class OnlineHotelReservationsApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(OnlineHotelReservationsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(OnlineHotelReservationsApplication.class, args);
+    }
 
 }

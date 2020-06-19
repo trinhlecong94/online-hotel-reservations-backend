@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "reservation")
@@ -33,7 +33,7 @@ public class ReservationEntity implements Serializable {
     @JoinTable(name = "reservation_promo",
             joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "promo_id", referencedColumnName = "id"))
-    private List<PromoEntity> promos;
+    private Set<PromoEntity> promos;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status = ReservationStatus.UNPAID;

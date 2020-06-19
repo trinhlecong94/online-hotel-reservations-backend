@@ -28,7 +28,7 @@ public class BrandEntity implements Serializable {
 
     private String address;
 
-    private  int floor;
+    private int floor;
 
     private String desciption;
 

@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.List;
 
 @Entity
 @Table(name = "room")
@@ -32,5 +33,8 @@ public class RoomEntity implements Serializable {
     @NotNull
     @OneToOne
     private BrandEntity brand;
+
+    @OneToMany(mappedBy = "room")
+    private List<RoomReservationEntity> roomReservation;
 
 }

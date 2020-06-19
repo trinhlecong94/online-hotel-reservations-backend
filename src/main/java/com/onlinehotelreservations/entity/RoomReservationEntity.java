@@ -28,16 +28,16 @@ public class RoomReservationEntity {
     private RoomEntity room;
 
     @NotNull
-    @OneToOne(cascade=CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.REMOVE)
     private ReservationEntity reservation;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)

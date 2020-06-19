@@ -23,4 +23,9 @@ public class PromoExceptionController {
     public ResponseEntity<Object> exception(PromoIsNotExistsException exception) {
         return Response.buildResponseError(new ApiError(HttpStatus.BAD_GATEWAY, exception));
     }
+
+    @ExceptionHandler(value = PromoIsNotExistsCodeException.class)
+    public ResponseEntity<Object> exception(PromoIsNotExistsCodeException exception) {
+        return Response.buildResponseError(new ApiError(HttpStatus.NOT_FOUND, exception));
+    }
 }

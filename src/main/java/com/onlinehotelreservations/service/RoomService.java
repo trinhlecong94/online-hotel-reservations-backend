@@ -16,7 +16,6 @@ import java.util.List;
 @Slf4j
 public class RoomService {
     private final RoomRepository roomRepository;
-    private final RoomTypeService roomTypeService;
 
     public List<RoomEntity> getAllRoom() {
         return this.roomRepository.findAll();

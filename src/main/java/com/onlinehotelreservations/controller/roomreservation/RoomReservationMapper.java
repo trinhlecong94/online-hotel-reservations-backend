@@ -44,6 +44,7 @@ public abstract class RoomReservationMapper {
     @Mapping(source = ".", target = "users", qualifiedByName = "mapToUserEntities")
     public abstract RoomReservationEntity toRoomReservationEntity(RoomReservationDTO roomReservationDTO);
 
+    @Mapping(source = ".", target = "usersBooking", qualifiedByName = "mapToUserBooking")
     public abstract RoomReservationDTO toRoomReservationDTO(RoomReservationEntity roomReservationEntity);
 
     public List<RoomReservationDTO> toRoomReservationDTOs(List<RoomReservationEntity> roomReservationEntities) {
@@ -64,6 +65,10 @@ public abstract class RoomReservationMapper {
             userEntity.add(this.userService.getUserFollowId(user.getId()));
         }
         return userEntity;
+    }
+
+    public UserDTO mapToUserBooking(final RoomReservationEntity roomReservationEntity){
+        return this.userMapper.toUserDTO(roomReservationEntity.getReservation().getUser());
     }
 
 }

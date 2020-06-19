@@ -1,14 +1,16 @@
 package com.onlinehotelreservations.controller.room.DTO;
 
+import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
 import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 
 @Data
-public class RoomDTO {
+public class RoomResponseDTO {
 
     private int id;
 
@@ -23,6 +25,8 @@ public class RoomDTO {
 
     @NotNull
     private Brand brand;
+
+    private List<RoomReservationDTO> roomReservationDTOList;
 
     @Data
     public static class Brand {

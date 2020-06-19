@@ -66,8 +66,8 @@ public class DataSeedingListener implements ApplicationListener<ContextRefreshed
         addUserIfMissing("khanh1025@gmail.com", "123456789aaA", Role.ROLE_USER);
         addUserIfMissing("khanhadmin1025@gmail.com", "123456789aaA", Role.ROLE_USER, Role.ROLE_ADMIN);
 
-        for(int i = 0; i< 15; ++i) {
-            String username = "khanh1025" + i +"@gmail.com";
+        for (int i = 0; i < 15; ++i) {
+            String username = "khanh1025" + i + "@gmail.com";
             addUserIfMissing(username, "123456789aaA", Role.ROLE_ADMIN, Role.ROLE_USER);
         }
 

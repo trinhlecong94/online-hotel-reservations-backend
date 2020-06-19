@@ -16,12 +16,12 @@ public class ReservationController {
     private final ReservationMapper reservationMapper;
 
     @GetMapping("/{id}")
-    ApiData<ReservationDTO> getReservationFollowID(@PathVariable("id") int id){
+    ApiData<ReservationDTO> getReservationFollowID(@PathVariable("id") int id) {
         return new ApiData<>(this.reservationMapper.toReservationDTO(this.reservationService.getReservationFollowId(id)));
     }
 
     @DeleteMapping("/{id}")
-    void deleteReservationFollowId(@PathVariable("id") int id){
+    void deleteReservationFollowId(@PathVariable("id") int id) {
         this.reservationService.deleteReservationFollowId(id);
     }
 

@@ -1,20 +1,19 @@
 package com.onlinehotelreservations.service;
 
-import com.onlinehotelreservations.controller.promo.exception.PromoNotFoundException;
-import com.onlinehotelreservations.controller.roomreservation.DTO.RoomsReservationDTO;
+import com.onlinehotelreservations.controller.promo.exception.PromoIsNotExistsCodeException;
+import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationRequestDTO;
 import com.onlinehotelreservations.controller.roomreservation.exception.ConflictException;
 import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsExistsException;
 import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsNotExistsException;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
-import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.entity.*;
 import com.onlinehotelreservations.repository.RoomReservationRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -26,8 +25,6 @@ public class RoomReservationService {
     private final ReservationService reservationService;
 
     private final RoomService roomService;
-
-    private final UserMapper userMapper;
 
     private final UserService userService;
 
@@ -84,62 +81,82 @@ public class RoomReservationService {
         }
     }
 
-    public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomsReservationDTO roomReservationEntity, UserEntity userBooking, List<String> PromoCodes) {
-        List<RoomReservationEntity> roomReservationEntities = new ArrayList<>();
+    public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomReservationRequestDTO roomReservationEntity, UserEntity userBooking, List<String> PromoCodes) {
 
-        List<PromoEntity> promoEntities = new ArrayList<>();
-        for (String code : PromoCodes) {
-            PromoEntity PromoFormDatabase = this.promoService.getPromoByCodeStillActive(code);
-            if (PromoFormDatabase == null) {
-                throw new PromoNotFoundException(0);
-            }
-            promoEntities.add(PromoFormDatabase);
+        List<RoomReservationEntity> listNewRoomReservation = new ArrayList<>();
+
+        //check Start date must be before end date
+        long getDiff = roomReservationEntity.getEndDate().getTime() - roomReservationEntity.getStartDate().getTime();
+        if (TimeUnit.MILLISECONDS.toHours(getDiff)<20){
+            throw new ConflictException("Conflict: Start date must be before end date");
         }
 
+        //check code is Invalid
+        Set<PromoEntity> promoFromDatabase = new HashSet<>();
+        for (String code : PromoCodes) {
+            PromoEntity PromoFormDatabase = this.promoService.getPromoByCodeStillActive(code);
+            if ((PromoFormDatabase == null)
+                    || (PromoFormDatabase.getRoomType().getId() != roomReservationEntity.getRoomTypeId())) {
+                throw new PromoIsNotExistsCodeException(code);
+            }
+            promoFromDatabase.add(PromoFormDatabase);
+        }
 
         for (int i = 0; i < numberOfRooms; i++) {
-
-            ReservationEntity reservation = new ReservationEntity();
-            UserEntity userEntity = this.userService.getUserFollowId(userBooking.getId());
-            reservation.setUser(userEntity);
-            if (promoEntities != null) {
-                reservation.setPromos(promoEntities);
-            }
-            this.reservationService.addNewReservation(reservation);
-
-            List<RoomEntity> roomEntities = this.roomService.getAllRoomAvailableByBandIdAndRoomTypeId(
+            List<RoomEntity> roomAvailableFromDatabase = this.roomService.getAllRoomAvailableByBandIdAndRoomTypeId(
                     roomReservationEntity.getStartDate(),
                     roomReservationEntity.getEndDate(),
                     roomReservationEntity.getBrandId(),
                     roomReservationEntity.getRoomTypeId()
             );
 
-            if ((roomEntities == null) || (roomEntities.size() < numberOfRooms)) {
-                throw new ConflictException("ConflictException");
-            }
-
-            if (roomService.getRoomStatus(roomEntities.get(i).getId())) {
-                throw new RoomReservationIsExistsException(roomEntities.get(i).getId());
+            if ((roomAvailableFromDatabase == null) || (roomAvailableFromDatabase.size() < numberOfRooms)) {
+                throw new ConflictException("Conflict: There is not enough room");
             }
 
             RoomReservationEntity newRoomReservation = new RoomReservationEntity();
             newRoomReservation.setId(0);
-            newRoomReservation.setEndDate(roomReservationEntity.getEndDate());
-            newRoomReservation.setReservation(reservation);
-            newRoomReservation.setRoom(roomEntities.get(i));
+            newRoomReservation.setRoom(roomAvailableFromDatabase.get(i));
             newRoomReservation.setStatus(roomReservationEntity.getStatus());
-            List<UserEntity> userEntities = new ArrayList<>();
+
+            List<UserEntity> usersFormDatabase = new ArrayList<>();
             for (UserDTO user : roomReservationEntity.getUsers()) {
-                userEntities.add(this.userMapper.toUserEntity(user));
+                usersFormDatabase.add(this.userService.getUserFollowId(user.getId()));
             }
-            newRoomReservation.setUsers(userEntities);
-            newRoomReservation.setStartDate(roomReservationEntity.getStartDate());
+            newRoomReservation.setUsers(usersFormDatabase);
+
+            ReservationEntity newReservation = new ReservationEntity();
+            UserEntity userEntity = this.userService.getUserFollowId(userBooking.getId());
+            newReservation.setUser(userEntity);
+            if (promoFromDatabase != null) {
+                newReservation.setPromos(promoFromDatabase);
+            }
+            this.reservationService.addNewReservation(newReservation);
+            newRoomReservation.setReservation(newReservation);
+
+            Date endDate = roomReservationEntity.getEndDate();
+            endDate.setHours(12);
+            endDate.setMinutes(00);
+            endDate.setSeconds(00);
+            newRoomReservation.setEndDate(endDate);
+
+            Date startDate = roomReservationEntity.getStartDate();
+            startDate.setHours(14);
+            startDate.setMinutes(00);
+            startDate.setSeconds(00);
+            newRoomReservation.setStartDate(startDate);
+
             RoomReservationEntity roomReservation = this.roomReservationRepository.save(newRoomReservation);
+
             if (roomReservation.getEndDate() != null) {
                 updateRateAfterCheckout(newRoomReservation);
             }
-            roomReservationEntities.add(roomReservation);
+            listNewRoomReservation.add(roomReservation);
         }
-        return roomReservationEntities;
+        return listNewRoomReservation;
+    }
+
+    public List<RoomReservationEntity> getAllRoomReservationByRoomId(int id) {
+        return this.roomReservationRepository.getAllRoomReservationByRoomId(id);
     }
 }

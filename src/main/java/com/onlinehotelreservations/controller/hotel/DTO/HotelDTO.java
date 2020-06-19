@@ -32,7 +32,6 @@ public class HotelDTO {
     private Set<ImageEntity> images;
 
 
-
     @Data
     @AllArgsConstructor
     @NoArgsConstructor

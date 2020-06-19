@@ -10,7 +10,6 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 
 @Data
@@ -25,7 +24,7 @@ public class ReservationDTO {
 
     private double tax;
 
-    private List<Promo> promos;
+    private Set<Promo> promos;
 
     @Enumerated(EnumType.STRING)
     private ReservationStatus status = ReservationStatus.UNPAID;

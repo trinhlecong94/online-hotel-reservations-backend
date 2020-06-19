@@ -22,6 +22,7 @@ public class PromoEntity implements Serializable {
     private int id;
 
     @NotNull
+    @Column(unique = true)
     private String promoCode;
 
     @NotNull

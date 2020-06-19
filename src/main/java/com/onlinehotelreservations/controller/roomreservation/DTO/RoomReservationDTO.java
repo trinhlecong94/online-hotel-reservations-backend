@@ -23,12 +23,12 @@ public class RoomReservationDTO {
     private Reservation reservation;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
-    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
     private List<UserDTO> users;
@@ -54,9 +54,6 @@ public class RoomReservationDTO {
 
         @NotNull
         private int floor;
-
-        @NotNull
-        private int occupancyLimit;
 
     }
 

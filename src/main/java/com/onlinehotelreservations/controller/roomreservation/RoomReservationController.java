@@ -1,7 +1,7 @@
 package com.onlinehotelreservations.controller.roomreservation;
 
 import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
-import com.onlinehotelreservations.controller.roomreservation.DTO.RoomsReservationDTO;
+import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationRequestDTO;
 import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.service.RoomReservationService;
 import com.onlinehotelreservations.shared.model.ApiData;
@@ -29,20 +29,12 @@ public class RoomReservationController {
                 this.roomReservationService.getRoomReservationFollowId(id)));
     }
 
-//    @PostMapping
-//    ApiData<RoomReservationDTO> addNewRoomReservation(@RequestBody RoomReservationDTO roomReservationDTO) {
-//        return new ApiData<>(this.roomReservationMapper.toRoomReservationDTO(
-//                this.roomReservationService.addNewRoomReservation(
-//                        this.roomReservationMapper.toRoomReservationEntity(roomReservationDTO),
-//                        this.userMapper.toUserEntity(roomReservationDTO.getUsersBooking())
-//                )));
-//    }
 
     @PostMapping
     ApiData<List<RoomReservationDTO>> addNewRoomsReservation(
-            @RequestParam("numberOfRooms") int numberOfRooms,
-            @RequestParam(value="listPromoCode", required=false) List<String> listPromoCode,
-            @RequestBody RoomsReservationDTO roomsReservationDTO) {
+            @RequestParam(value = "numberOfRooms") int numberOfRooms,
+            @RequestParam(value = "listPromoCode", required = false) List<String> listPromoCode,
+            @RequestBody RoomReservationRequestDTO roomsReservationDTO) {
         return new ApiData<>(this.roomReservationMapper.toRoomReservationDTOs(
                 this.roomReservationService.addNewRoomReservations(
                         numberOfRooms,

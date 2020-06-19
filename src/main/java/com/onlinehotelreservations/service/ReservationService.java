@@ -15,26 +15,26 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
 
     public ReservationEntity getReservationFollowId(int id) {
-        return this.reservationRepository.findById(id).orElseThrow(()->
+        return this.reservationRepository.findById(id).orElseThrow(() ->
                 new ReservationIsNotExistsException(id));
     }
 
     public ReservationEntity editReservation(ReservationEntity updateReservation) {
-        if(!this.reservationRepository.existsById(updateReservation.getId())){
+        if (!this.reservationRepository.existsById(updateReservation.getId())) {
             throw new ReservationIsNotExistsException(updateReservation.getId());
         }
         return this.reservationRepository.save(updateReservation);
     }
 
     public ReservationEntity addNewReservation(ReservationEntity newReservation) {
-        if(this.reservationRepository.existsById(newReservation.getId())){
+        if (this.reservationRepository.existsById(newReservation.getId())) {
             throw new ReservationIsExistsException(newReservation.getId());
         }
         return this.reservationRepository.save(newReservation);
     }
 
     public void deleteReservationFollowId(int id) {
-        if(!this.reservationRepository.existsById(id)){
+        if (!this.reservationRepository.existsById(id)) {
             throw new ReservationIsNotExistsException(id);
         }
         this.reservationRepository.existsById(id);

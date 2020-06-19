@@ -1,6 +1,7 @@
 package com.onlinehotelreservations.controller.room;
 
-import com.onlinehotelreservations.controller.room.DTO.RoomDTO;
+import com.onlinehotelreservations.controller.room.DTO.RoomRequestDTO;
+import com.onlinehotelreservations.controller.room.DTO.RoomResponseDTO;
 import com.onlinehotelreservations.controller.room.DTO.RoomStatusDTO;
 import com.onlinehotelreservations.service.RoomService;
 import com.onlinehotelreservations.shared.model.ApiData;
@@ -20,41 +21,50 @@ public class RoomController {
 
     private final RoomService roomService;
 
-    private final RoomMapper roomMapper;
+    private final RoomRequestMapper roomRequestMapper;
+
+    private final RoomResponseMapper roomResponseMapper;
+
+    private final RoomStatusMapper roomStatusMapper;
 
     @GetMapping("/status/")
     public ApiData<List<RoomStatusDTO>> getAllRoomStatus(
             @RequestParam("startDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date startDate,
             @RequestParam("endDate") @DateTimeFormat(pattern = "yyyy-MM-dd") Date endDate,
             @RequestParam("brandId") int brandId) {
-        return new ApiData<>(this.roomMapper.RoomStatusDTOs(startDate,endDate,brandId));
+        return new ApiData<>(this.roomStatusMapper.RoomStatusDTOs(startDate,endDate,brandId));
+    }
+
+    @GetMapping("room-reservation/brand/{brandID}")
+    public ApiData<List<RoomResponseDTO>> getAllRoom_RoomReservationByBrand(@PathVariable("brandID") int brandID) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTOs(this.roomService.getAllRoomByBrand(brandID)));
     }
 
     @GetMapping("/search/{valueSearch}")
-    public ApiData<List<RoomDTO>> getAllRoomSearchByRoomNameAndBrandNameAndRoomTypeNameAndAddress(@PathVariable(name = "valueSearch") String valueSearch) {
-        return new ApiData<>(this.roomMapper.toRoomDT0s(this.roomService.searchRooms(valueSearch)));
+    public ApiData<List<RoomResponseDTO>> getAllRoomSearchByRoomNameAndBrandNameAndRoomTypeNameAndAddress(@PathVariable(name = "valueSearch") String valueSearch) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTOs(this.roomService.searchRooms(valueSearch)));
     }
 
     @GetMapping("/brand/{brandID}")
-    public ApiData<List<RoomDTO>> getAllRoomByBrand(@PathVariable("brandID") int brandID) {
-        return new ApiData<>(this.roomMapper.toRoomDT0s(this.roomService.getAllRoomByBrand(brandID)));
+    public ApiData<List<RoomResponseDTO>> getAllRoomByBrand(@PathVariable("brandID") int brandID) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTOs(this.roomService.getAllRoomByBrand(brandID)));
     }
 
     @GetMapping("/{id}")
-    public ApiData<RoomDTO> getRoomFollowID(@PathVariable("id") int id) {
-        return new ApiData<>(this.roomMapper.toRoomDTO(this.roomService.getRoomFollowID(id)));
+    public ApiData<RoomResponseDTO> getRoomFollowID(@PathVariable("id") int id) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.getRoomFollowID(id)));
     }
 
     @PutMapping
-    public ApiData<RoomDTO> editRoom(@RequestBody RoomDTO editRoom) {
-        return new ApiData<>(this.roomMapper.toRoomDTO(this.roomService.editRoom(
-                this.roomMapper.toRoomEntity(editRoom))));
+    public ApiData<RoomResponseDTO> editRoom(@RequestBody RoomRequestDTO editRoom) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.editRoom(
+                this.roomRequestMapper.toRoomEntity(editRoom))));
     }
 
     @PostMapping
-    public ApiData<RoomDTO> addNewRoom(@RequestBody RoomDTO newRoom) {
-        return new ApiData<>(this.roomMapper.toRoomDTO(this.roomService.addNewRoom(
-                this.roomMapper.toRoomEntity(newRoom))));
+    public ApiData<RoomResponseDTO> addNewRoom(@RequestBody RoomRequestDTO newRoom) {
+        return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.addNewRoom(
+                this.roomRequestMapper.toRoomEntity(newRoom))));
     }
 
     @DeleteMapping("/{id}")

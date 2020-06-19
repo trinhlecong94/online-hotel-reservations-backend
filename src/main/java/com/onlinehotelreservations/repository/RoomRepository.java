@@ -30,7 +30,7 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Integer> {
             "OR LOWER(room_type.name) like LOWER(CONCAT('%', :keyword ,'%'))\n" +
             "OR LOWER(brand.address) like LOWER(CONCAT('%', :keyword ,'%'))"
             , nativeQuery = true)
-    List<RoomEntity> searchRooms(@Param("keyword")String keyword);
+    List<RoomEntity> searchRooms(@Param("keyword") String keyword);
 
 
     @Query(value = "SELECT room.id as id,\n" +
@@ -47,5 +47,5 @@ public interface RoomRepository extends JpaRepository<RoomEntity, Integer> {
             "AND room.brand_id =:brandId\n" +
             "AND room.room_type_id=:roomTypeId\n" +
             "ORDER BY room.floor", nativeQuery = true)
-    List<RoomEntity> getAllRoomAvailableByBandIdAndRoomTypeId(@Param("startDate") Date startDate, @Param("endDate") Date endDate,@Param("brandId") int brandId,@Param("roomTypeId") int roomTypeId);
+    List<RoomEntity> getAllRoomAvailableByBandIdAndRoomTypeId(@Param("startDate") Date startDate, @Param("endDate") Date endDate, @Param("brandId") int brandId, @Param("roomTypeId") int roomTypeId);
 }

@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-public class RoomsReservationDTO {
+public class RoomReservationRequestDTO {
 
     private int id;
 
@@ -56,9 +56,6 @@ public class RoomsReservationDTO {
 
         @NotNull
         private int floor;
-
-        @NotNull
-        private int occupancyLimit;
 
     }
 
