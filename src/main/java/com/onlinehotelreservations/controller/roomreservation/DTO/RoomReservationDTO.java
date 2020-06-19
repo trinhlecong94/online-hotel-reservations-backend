@@ -11,7 +11,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Data
 public class RoomReservationDTO {
@@ -31,7 +31,7 @@ public class RoomReservationDTO {
     @Temporal(TemporalType.TIMESTAMP)
     private Date endDate;
 
-    private List<UserDTO> users;
+    private Set<UserDTO> users;
 
     private UserDTO usersBooking;
 

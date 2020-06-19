@@ -8,6 +8,7 @@ import com.onlinehotelreservations.controller.roomreservation.exception.RoomRese
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.entity.*;
 import com.onlinehotelreservations.repository.RoomReservationRepository;
+import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -119,7 +120,7 @@ public class RoomReservationService {
             newRoomReservation.setRoom(roomAvailableFromDatabase.get(i));
             newRoomReservation.setStatus(roomReservationEntity.getStatus());
 
-            List<UserEntity> usersFormDatabase = new ArrayList<>();
+            Set<UserEntity> usersFormDatabase = new HashSet<>();
             for (UserDTO user : roomReservationEntity.getUsers()) {
                 usersFormDatabase.add(this.userService.getUserFollowId(user.getId()));
             }
@@ -158,5 +159,25 @@ public class RoomReservationService {
 
     public List<RoomReservationEntity> getAllRoomReservationByRoomId(int id) {
         return this.roomReservationRepository.getAllRoomReservationByRoomId(id);
+    }
+
+    public RoomReservationEntity reverseStatusRoomReservationFollowId(int id, String status) {
+        RoomReservationEntity roomReservationFromDatabase = this.roomReservationRepository.getOne(id);
+        if (roomReservationFromDatabase==null){
+            throw new RoomReservationIsNotExistsException(id);
+        }
+        if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)){
+            roomReservationFromDatabase.setStatus(RoomReservationStatus.CANCELLED);
+        }
+        else if (RoomReservationStatus.PENDING.toString().equalsIgnoreCase(status)){
+            roomReservationFromDatabase.setStatus(RoomReservationStatus.PENDING);
+        }
+        else if (RoomReservationStatus.COMPLETED.toString().equalsIgnoreCase(status)){
+            roomReservationFromDatabase.setStatus(RoomReservationStatus.COMPLETED);
+        } else {
+            throw new ConflictException("Conflict: Status is invalid");
+        }
+
+        return this.roomReservationRepository.save(roomReservationFromDatabase);
     }
 }

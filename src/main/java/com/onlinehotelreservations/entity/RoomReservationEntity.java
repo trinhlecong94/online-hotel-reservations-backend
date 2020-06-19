@@ -10,7 +10,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "room_reservation")
@@ -45,7 +45,7 @@ public class RoomReservationEntity {
             joinColumns = @JoinColumn(name = "room_reservation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"))
     @JsonManagedReference(value = "products")
-    private List<UserEntity> users;
+    private Set<UserEntity> users;
 
     @Enumerated(EnumType.STRING)
     private RoomReservationStatus status = RoomReservationStatus.PENDING;

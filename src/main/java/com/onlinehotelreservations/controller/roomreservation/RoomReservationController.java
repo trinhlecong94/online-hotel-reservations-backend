@@ -50,6 +50,13 @@ public class RoomReservationController {
                         this.roomReservationMapper.toRoomReservationEntity(roomReservationDTO))));
     }
 
+    @PatchMapping("/{id}/status")
+    public ApiData<RoomReservationDTO> changeStatus(
+            @PathVariable("id") int id,
+            @RequestParam(value = "status") String status) {
+        return new ApiData<>(this.roomReservationMapper.toRoomReservationDTO(this.roomReservationService.reverseStatusRoomReservationFollowId(id,status)));
+    }
+
     @DeleteMapping("/{id}")
     void deleteRoomReservationFollowID(@PathVariable("id") int id) {
         this.roomReservationService.deleteRoomReservationFollowID(id);

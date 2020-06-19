@@ -16,8 +16,9 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -59,8 +60,8 @@ public abstract class RoomReservationMapper {
         return this.reservationService.getReservationFollowId(roomReservationDTO.getReservation().getId());
     }
 
-    public List<UserEntity> mapToUserEntities(final RoomReservationDTO roomReservationDTO) {
-        List<UserEntity> userEntity = new ArrayList<>();
+    public Set<UserEntity> mapToUserEntities(final RoomReservationDTO roomReservationDTO) {
+        Set<UserEntity> userEntity = new HashSet<>();
         for (UserDTO user : roomReservationDTO.getUsers()) {
             userEntity.add(this.userService.getUserFollowId(user.getId()));
         }
