@@ -1,5 +1,6 @@
 package com.onlinehotelreservations.repository;
 
+import com.onlinehotelreservations.entity.ReservationEntity;
 import com.onlinehotelreservations.entity.RoomReservationEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,4 +16,6 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
 
     @Query(value = "SELECT rs FROM RoomReservationEntity rs WHERE rs.room.brand.id = ?1")
     List<RoomReservationEntity> getRoomReservationByBrandId(int id);
+
+    RoomReservationEntity getRoomReservationByReservation(ReservationEntity reservation);
 }

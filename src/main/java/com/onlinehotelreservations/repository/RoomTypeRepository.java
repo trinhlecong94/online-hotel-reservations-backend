@@ -10,11 +10,10 @@ import java.util.*;
 
 @Transactional
 public interface RoomTypeRepository extends JpaRepository<RoomTypeEntity, Integer> {
+
     @Query(
             value = "SELECT * FROM room_type\n" +
-                    "where name like CONCAT('%', :valueSearch , '%') ORDER BY capacity ASC",
-            nativeQuery = true
-    )
+                    "where name like CONCAT('%', :valueSearch , '%') ORDER BY capacity ASC", nativeQuery = true)
     List<RoomTypeEntity> findRoomTypesByKeyword(@Param("valueSearch") String valueSearch);
 }
 

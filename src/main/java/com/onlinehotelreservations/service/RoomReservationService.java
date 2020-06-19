@@ -11,6 +11,7 @@ import com.onlinehotelreservations.repository.RoomReservationRepository;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -23,7 +24,8 @@ public class RoomReservationService {
 
     private final RoomReservationRepository roomReservationRepository;
 
-    private final ReservationService reservationService;
+    @Autowired
+    private ReservationService reservationService;
 
     private final RoomService roomService;
 
@@ -40,7 +42,6 @@ public class RoomReservationService {
 
         ReservationEntity reservation = new ReservationEntity();
         reservation.setUser(userBooking);
-        this.reservationService.addNewReservation(reservation);
 
         if (roomService.getRoomStatus(newRoomReservation.getRoom().getId())) {
             throw new RoomReservationIsExistsException(newRoomReservation.getId());
@@ -48,7 +49,7 @@ public class RoomReservationService {
         RoomReservationEntity roomReservation = this.roomReservationRepository.save(newRoomReservation);
 
         if (roomReservation.getEndDate() != null) {
-            updateRateAfterCheckout(newRoomReservation);
+            this.reservationService.updateRateAfterCheckout(newRoomReservation.getReservation());
         }
 
         return roomReservation;
@@ -60,7 +61,7 @@ public class RoomReservationService {
         }
         RoomReservationEntity roomReservation = this.roomReservationRepository.save(editReservation);
         if (roomReservation.getEndDate() != null) {
-            updateRateAfterCheckout(editReservation);
+            this.reservationService.updateRateAfterCheckout(editReservation.getReservation());
         }
         return this.roomReservationRepository.save(roomReservation);
     }
@@ -72,15 +73,6 @@ public class RoomReservationService {
         this.roomReservationRepository.deleteById(id);
     }
 
-    public void updateRateAfterCheckout(RoomReservationEntity roomReservation) {
-        if (roomReservation.getEndDate() != null) {
-            ReservationEntity reservationFromDatabase = this.reservationService.getReservationFollowId(roomReservation.getReservation().getId());
-            double totalBeforeTax = (roomReservation.getEndDate().getTime() - roomReservation.getStartDate().getTime() + 1) * roomReservation.getRoom().getRoomType().getPrice();
-            reservationFromDatabase.setTotalBeforeTax(totalBeforeTax);
-            reservationFromDatabase.setTax(reservationFromDatabase.getTotalBeforeTax() * 10 / 100);
-            this.reservationService.editReservation(reservationFromDatabase);
-        }
-    }
 
     public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomReservationRequestDTO roomReservationEntity, UserEntity userBooking, List<String> PromoCodes) {
 
@@ -88,7 +80,7 @@ public class RoomReservationService {
 
         //check Start date must be before end date
         long getDiff = roomReservationEntity.getEndDate().getTime() - roomReservationEntity.getStartDate().getTime();
-        if (TimeUnit.MILLISECONDS.toHours(getDiff)<20){
+        if (TimeUnit.MILLISECONDS.toHours(getDiff) < 20) {
             throw new ConflictException("Conflict: Start date must be before end date");
         }
 
@@ -149,8 +141,9 @@ public class RoomReservationService {
             RoomReservationEntity roomReservation = this.roomReservationRepository.save(newRoomReservation);
 
             if (roomReservation.getEndDate() != null) {
-                updateRateAfterCheckout(newRoomReservation);
+                this.reservationService.updateRateAfterCheckout(newRoomReservation.getReservation());
             }
+
             listNewRoomReservation.add(roomReservation);
         }
         return listNewRoomReservation;
@@ -162,16 +155,14 @@ public class RoomReservationService {
 
     public RoomReservationEntity reverseStatusRoomReservationFollowId(int id, String status) {
         RoomReservationEntity roomReservationFromDatabase = this.roomReservationRepository.getOne(id);
-        if (roomReservationFromDatabase==null){
+        if (roomReservationFromDatabase == null) {
             throw new RoomReservationIsNotExistsException(id);
         }
-        if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)){
+        if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)) {
             roomReservationFromDatabase.setStatus(RoomReservationStatus.CANCELLED);
-        }
-        else if (RoomReservationStatus.PENDING.toString().equalsIgnoreCase(status)){
+        } else if (RoomReservationStatus.PENDING.toString().equalsIgnoreCase(status)) {
             roomReservationFromDatabase.setStatus(RoomReservationStatus.PENDING);
-        }
-        else if (RoomReservationStatus.COMPLETED.toString().equalsIgnoreCase(status)){
+        } else if (RoomReservationStatus.COMPLETED.toString().equalsIgnoreCase(status)) {
             roomReservationFromDatabase.setStatus(RoomReservationStatus.COMPLETED);
         } else {
             throw new ConflictException("Conflict: Status is invalid");
@@ -182,5 +173,9 @@ public class RoomReservationService {
 
     public List<RoomReservationEntity> getRoomReservationByBrandId(int id) {
         return this.roomReservationRepository.getRoomReservationByBrandId(id);
+    }
+
+    public RoomReservationEntity getRoomReservationByReservation(ReservationEntity reservation) {
+        return this.roomReservationRepository.getRoomReservationByReservation(reservation);
     }
 }
