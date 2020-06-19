@@ -17,6 +17,7 @@ import java.util.List;
 public class RoomTypeController {
 
     private final RoomTypeMapper roomTypeMapper;
+
     private final RoomTypeService roomTypeService;
 
     @GetMapping("/{id}")

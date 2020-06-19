@@ -1,5 +1,7 @@
 package com.onlinehotelreservations.controller.roomreservation;
 
+import com.onlinehotelreservations.controller.reservation.DTO.ReservationDTO;
+import com.onlinehotelreservations.controller.reservation.ReservationMapper;
 import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.controller.user.UserMapper;
@@ -40,12 +42,16 @@ public abstract class RoomReservationMapper {
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private ReservationMapper reservationMapper;
+
     @Mapping(source = ".", target = "room", qualifiedByName = "mapToRoomEntity")
     @Mapping(source = ".", target = "reservation", qualifiedByName = "mapToReservationEntity")
     @Mapping(source = ".", target = "users", qualifiedByName = "mapToUserEntities")
     public abstract RoomReservationEntity toRoomReservationEntity(RoomReservationDTO roomReservationDTO);
 
     @Mapping(source = ".", target = "usersBooking", qualifiedByName = "mapToUserBooking")
+    @Mapping(source = ".", target = "reservation", qualifiedByName = "mapToReservationDTO")
     public abstract RoomReservationDTO toRoomReservationDTO(RoomReservationEntity roomReservationEntity);
 
     public List<RoomReservationDTO> toRoomReservationDTOs(List<RoomReservationEntity> roomReservationEntities) {
@@ -70,6 +76,12 @@ public abstract class RoomReservationMapper {
 
     public UserDTO mapToUserBooking(final RoomReservationEntity roomReservationEntity){
         return this.userMapper.toUserDTO(roomReservationEntity.getReservation().getUser());
+    }
+
+    public ReservationDTO mapToReservationDTO(final RoomReservationEntity roomReservationEntity){
+        return this.reservationMapper.toReservationDTO(
+                this.reservationService.getReservationFollowId(
+                        roomReservationEntity.getReservation().getId()));
     }
 
 }

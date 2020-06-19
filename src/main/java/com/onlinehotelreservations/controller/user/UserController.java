@@ -5,7 +5,6 @@ import com.onlinehotelreservations.controller.authentication.DTO.RegisterDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.service.UserService;
 import com.onlinehotelreservations.shared.model.ApiData;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
@@ -20,8 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/users")
 public class UserController {
+
     private final UserMapper userMapper;
+
     private final UserService userService;
+
     private final AuthenticationMapper authenticationMapper;
 
     @GetMapping("/{id}")
