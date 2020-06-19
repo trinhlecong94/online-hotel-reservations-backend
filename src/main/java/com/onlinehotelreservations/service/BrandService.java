@@ -14,6 +14,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class BrandService {
+
     private final BrandRepository brandRepository;
 
     public List<BrandEntity> getAll() {

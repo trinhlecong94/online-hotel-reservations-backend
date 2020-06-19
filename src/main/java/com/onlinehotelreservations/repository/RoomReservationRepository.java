@@ -12,4 +12,7 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
 
     @Query(value = "SELECT r FROM RoomReservationEntity r WHERE r.room.id = ?1")
     List<RoomReservationEntity> getAllRoomReservationByRoomId(int id);
+
+    @Query(value = "SELECT rs FROM RoomReservationEntity rs WHERE rs.room.brand.id = ?1")
+    List<RoomReservationEntity> getRoomReservationByBrandId(int id);
 }

@@ -19,6 +19,7 @@ import java.util.List;
 public class HotelService {
 
     private final HotelRepository hotelRepository;
+
     private final BrandService brandService;
 
     public HotelEntity getHotelFollowID(int id) {

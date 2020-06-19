@@ -28,7 +28,7 @@ public class RoomReservationEntity {
     private RoomEntity room;
 
     @NotNull
-    @OneToOne(cascade = CascadeType.REMOVE)
+    @OneToOne(cascade = CascadeType.ALL)
     private ReservationEntity reservation;
 
     @NotNull

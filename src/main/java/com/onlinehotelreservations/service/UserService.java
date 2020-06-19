@@ -20,6 +20,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @Slf4j
 public class UserService {
+
     private final UserRepository userRepository;
 
     private final RoleRepository roleRepository;

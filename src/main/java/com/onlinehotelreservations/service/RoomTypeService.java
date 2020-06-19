@@ -38,7 +38,6 @@ public class RoomTypeService {
         return this.roomTypeRepository.findById(editRoomType.getId()).get();
     }
 
-
     public void deleteRoomTypeFollowId(int id) {
         if (!this.roomTypeRepository.existsById(id)) {
             throw new RomeTypeIsNotExistsException(id);

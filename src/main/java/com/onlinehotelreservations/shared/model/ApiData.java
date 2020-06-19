@@ -11,7 +11,9 @@ import java.util.*;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ApiData<T> {
     private T body;
+    @Builder.Default
     private int length = 1;
+    @Builder.Default
     private String message = null;
 
 

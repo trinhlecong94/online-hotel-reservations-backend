@@ -14,8 +14,8 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class PromoService {
+
     private final PromoRepository promoRepository;
-    private final RoomTypeService roomTypeService;
 
     public PromoEntity addNewPromo(PromoEntity newPromo) {
         if (this.promoRepository.existsById(newPromo.getId())) {

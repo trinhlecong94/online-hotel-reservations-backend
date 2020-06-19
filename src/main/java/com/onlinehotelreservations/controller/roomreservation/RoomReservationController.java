@@ -29,6 +29,11 @@ public class RoomReservationController {
                 this.roomReservationService.getRoomReservationFollowId(id)));
     }
 
+    @GetMapping("brand/{id}")
+    ApiData<List<RoomReservationDTO>> getRoomReservationByBrandId(@PathVariable("id") int id) {
+        return new ApiData<>(this.roomReservationMapper.toRoomReservationDTOs(
+                this.roomReservationService.getRoomReservationByBrandId(id)));
+    }
 
     @PostMapping
     ApiData<List<RoomReservationDTO>> addNewRoomsReservation(

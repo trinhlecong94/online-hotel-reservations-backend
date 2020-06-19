@@ -50,6 +50,7 @@ public class UserEntity implements Serializable {
     private String lastName;
 
     @Enumerated(EnumType.STRING)
+    @Builder.Default
     private UserStatus status = UserStatus.ACTIVE;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

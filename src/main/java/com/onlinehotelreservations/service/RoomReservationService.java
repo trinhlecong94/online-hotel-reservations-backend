@@ -132,7 +132,6 @@ public class RoomReservationService {
             if (promoFromDatabase != null) {
                 newReservation.setPromos(promoFromDatabase);
             }
-            this.reservationService.addNewReservation(newReservation);
             newRoomReservation.setReservation(newReservation);
 
             Date endDate = roomReservationEntity.getEndDate();
@@ -179,5 +178,9 @@ public class RoomReservationService {
         }
 
         return this.roomReservationRepository.save(roomReservationFromDatabase);
+    }
+
+    public List<RoomReservationEntity> getRoomReservationByBrandId(int id) {
+        return this.roomReservationRepository.getRoomReservationByBrandId(id);
     }
 }
