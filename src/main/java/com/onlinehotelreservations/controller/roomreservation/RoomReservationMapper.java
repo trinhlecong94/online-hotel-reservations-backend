@@ -3,12 +3,10 @@ package com.onlinehotelreservations.controller.roomreservation;
 import com.onlinehotelreservations.controller.reservation.DTO.ReservationDTO;
 import com.onlinehotelreservations.controller.reservation.ReservationMapper;
 import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
-import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.entity.ReservationEntity;
 import com.onlinehotelreservations.entity.RoomEntity;
 import com.onlinehotelreservations.entity.RoomReservationEntity;
-import com.onlinehotelreservations.entity.UserEntity;
 import com.onlinehotelreservations.service.ReservationService;
 import com.onlinehotelreservations.service.RoomReservationService;
 import com.onlinehotelreservations.service.RoomService;
@@ -18,9 +16,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -47,10 +43,8 @@ public abstract class RoomReservationMapper {
 
     @Mapping(source = ".", target = "room", qualifiedByName = "mapToRoomEntity")
     @Mapping(source = ".", target = "reservation", qualifiedByName = "mapToReservationEntity")
-    @Mapping(source = ".", target = "users", qualifiedByName = "mapToUserEntities")
     public abstract RoomReservationEntity toRoomReservationEntity(RoomReservationDTO roomReservationDTO);
 
-    @Mapping(source = ".", target = "usersBooking", qualifiedByName = "mapToUserBooking")
     @Mapping(source = ".", target = "reservation", qualifiedByName = "mapToReservationDTO")
     public abstract RoomReservationDTO toRoomReservationDTO(RoomReservationEntity roomReservationEntity);
 
@@ -64,18 +58,6 @@ public abstract class RoomReservationMapper {
 
     public ReservationEntity mapToReservationEntity(final RoomReservationDTO roomReservationDTO) {
         return this.reservationService.getReservationFollowId(roomReservationDTO.getReservation().getId());
-    }
-
-    public Set<UserEntity> mapToUserEntities(final RoomReservationDTO roomReservationDTO) {
-        Set<UserEntity> userEntity = new HashSet<>();
-        for (UserDTO user : roomReservationDTO.getUsers()) {
-            userEntity.add(this.userService.getUserFollowId(user.getId()));
-        }
-        return userEntity;
-    }
-
-    public UserDTO mapToUserBooking(final RoomReservationEntity roomReservationEntity){
-        return this.userMapper.toUserDTO(roomReservationEntity.getReservation().getUser());
     }
 
     public ReservationDTO mapToReservationDTO(final RoomReservationEntity roomReservationEntity){

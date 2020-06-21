@@ -44,7 +44,6 @@ public class RoomReservationController {
                 this.roomReservationService.addNewRoomReservations(
                         numberOfRooms,
                         roomsReservationDTO,
-                        this.userMapper.toUserEntity(roomsReservationDTO.getUsersBooking()),
                         listPromoCode)));
     }
 

@@ -31,7 +31,7 @@ public class ReservationEntity implements Serializable {
 
     private double totalAfterTax;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "reservation_promo",
             joinColumns = @JoinColumn(name = "reservation_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "promo_id", referencedColumnName = "id"))

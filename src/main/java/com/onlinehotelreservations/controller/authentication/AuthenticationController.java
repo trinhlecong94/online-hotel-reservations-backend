@@ -48,8 +48,7 @@ public class AuthenticationController {
                 );
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 final String token = jwtTokenUtil.generateToken(authentication);
-                return ResponseEntity.ok(new AuthTokenDTO(
-                        this.userMapper.toUserDTO(this.userService.getUserByEmail(login.getEmail())),token));
+                return ResponseEntity.ok(new AuthTokenDTO(this.userMapper.toUserDTO(this.userService.getUserByEmail(login.getEmail())), token));
             } catch (Exception e) {
                 throw new PasswordLoginFailedException();
             }

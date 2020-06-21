@@ -1,6 +1,5 @@
 package com.onlinehotelreservations.controller.roomreservation.DTO;
 
-import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -11,7 +10,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
-import java.util.List;
 
 @Data
 public class RoomReservationRequestDTO {
@@ -25,17 +23,23 @@ public class RoomReservationRequestDTO {
     private Reservation reservation;
 
     @NotNull
-    @DateTimeFormat(pattern = "yyyy-mm-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     @Temporal(TemporalType.DATE)
     private Date startDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     @Temporal(TemporalType.DATE)
     private Date endDate;
 
-    private List<UserDTO> users;
 
-    private UserDTO usersBooking;
+    @NotNull
+    private String firstName;
+
+    @NotNull
+    private String lastName;
+
+    @NotNull
+    private String email;
 
     @Enumerated(EnumType.STRING)
     private RoomReservationStatus status = RoomReservationStatus.PENDING;

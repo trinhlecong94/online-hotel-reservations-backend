@@ -1,11 +1,12 @@
 package com.onlinehotelreservations.service;
 
+import com.onlinehotelreservations.config.SecurityUtils;
 import com.onlinehotelreservations.controller.promo.exception.PromoIsNotExistsCodeException;
 import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationRequestDTO;
 import com.onlinehotelreservations.controller.roomreservation.exception.ConflictException;
 import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsExistsException;
 import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsNotExistsException;
-import com.onlinehotelreservations.controller.user.DTO.UserDTO;
+import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.entity.*;
 import com.onlinehotelreservations.repository.RoomReservationRepository;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
@@ -32,6 +33,8 @@ public class RoomReservationService {
     private final UserService userService;
 
     private final PromoService promoService;
+
+    private final UserMapper userMapper;
 
     public RoomReservationEntity getRoomReservationFollowId(int id) {
         return this.roomReservationRepository.findById(id).orElseThrow(
@@ -74,7 +77,7 @@ public class RoomReservationService {
     }
 
 
-    public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomReservationRequestDTO roomReservationEntity, UserEntity userBooking, List<String> PromoCodes) {
+    public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomReservationRequestDTO roomReservationEntity, List<String> PromoCodes) {
 
         List<RoomReservationEntity> listNewRoomReservation = new ArrayList<>();
 
@@ -86,14 +89,15 @@ public class RoomReservationService {
 
         //check code is Invalid
         Set<PromoEntity> promoFromDatabase = new HashSet<>();
-        for (String code : PromoCodes) {
-            PromoEntity PromoFormDatabase = this.promoService.getPromoByCodeStillActive(code);
-            if ((PromoFormDatabase == null)
-                    || (PromoFormDatabase.getRoomType().getId() != roomReservationEntity.getRoomTypeId())) {
-                throw new PromoIsNotExistsCodeException(code);
+        if (PromoCodes != null)
+            for (String code : PromoCodes) {
+                PromoEntity PromoFormDatabase = this.promoService.getPromoByCodeStillActive(code);
+                if ((PromoFormDatabase == null)
+                        || (PromoFormDatabase.getRoomType().getId() != roomReservationEntity.getRoomTypeId())) {
+                    throw new PromoIsNotExistsCodeException(code);
+                }
+                promoFromDatabase.add(PromoFormDatabase);
             }
-            promoFromDatabase.add(PromoFormDatabase);
-        }
 
         for (int i = 0; i < numberOfRooms; i++) {
             List<RoomEntity> roomAvailableFromDatabase = this.roomService.getAllRoomAvailableByBandIdAndRoomTypeId(
@@ -111,19 +115,21 @@ public class RoomReservationService {
             newRoomReservation.setId(0);
             newRoomReservation.setRoom(roomAvailableFromDatabase.get(i));
             newRoomReservation.setStatus(roomReservationEntity.getStatus());
-
-            Set<UserEntity> usersFormDatabase = new HashSet<>();
-            for (UserDTO user : roomReservationEntity.getUsers()) {
-                usersFormDatabase.add(this.userService.getUserFollowId(user.getId()));
-            }
-            newRoomReservation.setUsers(usersFormDatabase);
+            newRoomReservation.setEmail(roomReservationEntity.getEmail());
+            newRoomReservation.setFirstName(roomReservationEntity.getFirstName());
+            newRoomReservation.setLastName(roomReservationEntity.getLastName());
 
             ReservationEntity newReservation = new ReservationEntity();
-            UserEntity userEntity = this.userService.getUserFollowId(userBooking.getId());
+            System.out.println(SecurityUtils.getCurrentUserEmail());
+            //UserEntity userEntity = this.userService.getUserByEmail(SecurityUtils.getCurrentUserEmail());
+
+            UserEntity userEntity = this.userService.getUserFollowId(1);
+
             newReservation.setUser(userEntity);
             if (promoFromDatabase != null) {
                 newReservation.setPromos(promoFromDatabase);
             }
+
             newRoomReservation.setReservation(newReservation);
 
             Date endDate = roomReservationEntity.getEndDate();
@@ -158,8 +164,11 @@ public class RoomReservationService {
         if (roomReservationFromDatabase == null) {
             throw new RoomReservationIsNotExistsException(id);
         }
-        if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)) {
+        if (roomReservationFromDatabase.getStatus() == RoomReservationStatus.CANCELLED){
             throw new ConflictException("Conflict: Status CANCELLED do not change");
+        }
+        else if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)) {
+            roomReservationFromDatabase.setStatus(RoomReservationStatus.CANCELLED);
         } else if (RoomReservationStatus.PENDING.toString().equalsIgnoreCase(status)) {
             roomReservationFromDatabase.setStatus(RoomReservationStatus.PENDING);
         } else if (RoomReservationStatus.COMPLETED.toString().equalsIgnoreCase(status)) {
