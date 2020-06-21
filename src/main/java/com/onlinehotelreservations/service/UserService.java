@@ -35,6 +35,12 @@ public class UserService {
         return userEntity;
     }
 
+    public UserEntity getUserByEmail(String email) {
+        UserEntity userEntity = this.userRepository.findByEmail(email).orElseThrow(() ->
+                new UserNotFoundException(0));
+        return userEntity;
+    }
+
     public UserEntity addNewUser(UserEntity userEntity) {
 
         Optional<UserEntity> userEntityFromDataBase = this.userRepository.findByEmail(userEntity.getEmail());

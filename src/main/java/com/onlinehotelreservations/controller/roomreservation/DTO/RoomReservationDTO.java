@@ -1,5 +1,6 @@
 package com.onlinehotelreservations.controller.roomreservation.DTO;
 
+import com.onlinehotelreservations.controller.reservation.DTO.ReservationDTO;
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class RoomReservationDTO {
 
     private Room room;
 
-    private Reservation reservation;
+    private ReservationDTO reservation;
 
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd hh:mm:ss")
@@ -37,13 +38,6 @@ public class RoomReservationDTO {
 
     @Enumerated(EnumType.STRING)
     private RoomReservationStatus status = RoomReservationStatus.PENDING;
-
-    @Data
-    public static class Reservation {
-
-        private int id;
-
-    }
 
     @Data
     public static class Room {

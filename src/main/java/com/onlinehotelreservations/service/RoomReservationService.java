@@ -159,7 +159,7 @@ public class RoomReservationService {
             throw new RoomReservationIsNotExistsException(id);
         }
         if (RoomReservationStatus.CANCELLED.toString().equalsIgnoreCase(status)) {
-            roomReservationFromDatabase.setStatus(RoomReservationStatus.CANCELLED);
+            throw new ConflictException("Conflict: Status CANCELLED do not change");
         } else if (RoomReservationStatus.PENDING.toString().equalsIgnoreCase(status)) {
             roomReservationFromDatabase.setStatus(RoomReservationStatus.PENDING);
         } else if (RoomReservationStatus.COMPLETED.toString().equalsIgnoreCase(status)) {
