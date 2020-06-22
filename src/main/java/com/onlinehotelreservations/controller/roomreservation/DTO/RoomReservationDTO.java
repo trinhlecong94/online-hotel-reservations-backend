@@ -24,6 +24,11 @@ public class RoomReservationDTO {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
     @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")

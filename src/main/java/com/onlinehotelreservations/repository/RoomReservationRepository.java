@@ -18,4 +18,7 @@ public interface RoomReservationRepository extends JpaRepository<RoomReservation
     List<RoomReservationEntity> getRoomReservationByBrandId(int id);
 
     RoomReservationEntity getRoomReservationByReservation(ReservationEntity reservation);
+
+    @Query(value = "SELECT rs FROM RoomReservationEntity rs WHERE rs.reservation.user.email = ?1")
+    List<RoomReservationEntity> getRoomReservationByCurrentUserId(String currentUsedId);
 }

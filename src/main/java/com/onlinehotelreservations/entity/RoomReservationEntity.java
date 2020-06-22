@@ -1,5 +1,6 @@
 package com.onlinehotelreservations.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,7 +23,13 @@ public class RoomReservationEntity {
     private int id;
 
     @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss.SSSz")
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createDate;
+
+    @NotNull
     @OneToOne
+    @JsonIgnore
     private RoomEntity room;
 
     @NotNull

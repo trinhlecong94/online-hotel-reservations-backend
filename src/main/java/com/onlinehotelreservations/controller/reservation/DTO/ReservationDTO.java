@@ -2,7 +2,6 @@ package com.onlinehotelreservations.controller.reservation.DTO;
 
 import com.onlinehotelreservations.controller.user.DTO.UserDTO;
 import com.onlinehotelreservations.entity.PromoEntity;
-import com.onlinehotelreservations.entity.RoomTypeEntity;
 import com.onlinehotelreservations.shared.enums.ReservationStatus;
 import lombok.Data;
 
@@ -48,6 +47,6 @@ public class ReservationDTO {
 
         private Date endDate;
 
-        private RoomTypeEntity roomType;
+        //private RoomTypeEntity roomType;
     }
 }

@@ -1,6 +1,6 @@
 package com.onlinehotelreservations.controller.room.DTO;
 
-import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
+import com.onlinehotelreservations.entity.RoomReservationEntity;
 import lombok.Data;
 
 import javax.persistence.Column;
@@ -26,7 +26,7 @@ public class RoomResponseDTO {
     @NotNull
     private Brand brand;
 
-    private List<RoomReservationDTO> roomReservationDTOList;
+    private List<RoomReservationEntity> roomReservationDTOList;
 
     @Data
     public static class Brand {

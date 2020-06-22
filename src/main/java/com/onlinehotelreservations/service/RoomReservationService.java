@@ -4,7 +4,6 @@ import com.onlinehotelreservations.config.SecurityUtils;
 import com.onlinehotelreservations.controller.promo.exception.PromoIsNotExistsCodeException;
 import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationRequestDTO;
 import com.onlinehotelreservations.controller.roomreservation.exception.ConflictException;
-import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsExistsException;
 import com.onlinehotelreservations.controller.roomreservation.exception.RoomReservationIsNotExistsException;
 import com.onlinehotelreservations.controller.user.UserMapper;
 import com.onlinehotelreservations.entity.*;
@@ -41,22 +40,6 @@ public class RoomReservationService {
                 () -> new RoomReservationIsNotExistsException(id));
     }
 
-    public RoomReservationEntity addNewRoomReservation(RoomReservationEntity newRoomReservation, UserEntity userBooking) {
-
-        ReservationEntity reservation = new ReservationEntity();
-        reservation.setUser(userBooking);
-
-        if (roomService.getRoomStatus(newRoomReservation.getRoom().getId())) {
-            throw new RoomReservationIsExistsException(newRoomReservation.getId());
-        }
-        RoomReservationEntity roomReservation = this.roomReservationRepository.save(newRoomReservation);
-
-        if (roomReservation.getEndDate() != null) {
-            this.reservationService.updateRateAfterCheckout(newRoomReservation.getReservation());
-        }
-
-        return roomReservation;
-    }
 
     public RoomReservationEntity editRoomReservation(RoomReservationEntity editReservation) {
         if (!this.roomReservationRepository.existsById(editReservation.getId())) {
@@ -118,12 +101,11 @@ public class RoomReservationService {
             newRoomReservation.setEmail(roomReservationEntity.getEmail());
             newRoomReservation.setFirstName(roomReservationEntity.getFirstName());
             newRoomReservation.setLastName(roomReservationEntity.getLastName());
+            newRoomReservation.setCreateDate(new Date());
 
             ReservationEntity newReservation = new ReservationEntity();
             System.out.println(SecurityUtils.getCurrentUserEmail());
-            //UserEntity userEntity = this.userService.getUserByEmail(SecurityUtils.getCurrentUserEmail());
-
-            UserEntity userEntity = this.userService.getUserFollowId(1);
+            UserEntity userEntity = this.userService.getUserByEmail(SecurityUtils.getCurrentUserEmail());
 
             newReservation.setUser(userEntity);
             if (promoFromDatabase != null) {
@@ -186,5 +168,10 @@ public class RoomReservationService {
 
     public RoomReservationEntity getRoomReservationByReservation(ReservationEntity reservation) {
         return this.roomReservationRepository.getRoomReservationByReservation(reservation);
+    }
+
+    public List<RoomReservationEntity> getRoomReservationByCurrentUserId() {
+        String currentUsedId = SecurityUtils.getCurrentUserEmail();
+        return this.roomReservationRepository.getRoomReservationByCurrentUserId(currentUsedId);
     }
 }

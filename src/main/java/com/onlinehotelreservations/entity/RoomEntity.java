@@ -34,7 +34,7 @@ public class RoomEntity implements Serializable {
     @OneToOne
     private BrandEntity brand;
 
-    @OneToMany(mappedBy = "room")
+    @OneToMany(mappedBy = "room",fetch = FetchType.EAGER)
     private List<RoomReservationEntity> roomReservation;
 
 }

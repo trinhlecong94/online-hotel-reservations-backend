@@ -1,15 +1,14 @@
 package com.onlinehotelreservations.controller.room;
 
 import com.onlinehotelreservations.controller.room.DTO.RoomResponseDTO;
-import com.onlinehotelreservations.controller.roomreservation.DTO.RoomReservationDTO;
 import com.onlinehotelreservations.controller.roomreservation.RoomReservationMapper;
 import com.onlinehotelreservations.entity.RoomEntity;
+import com.onlinehotelreservations.entity.RoomReservationEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,11 +26,11 @@ public abstract class RoomResponseMapper {
         return roomEntities.parallelStream().map(this::toRoomResponseDTO).collect(Collectors.toList());
     }
 
-    public List<RoomReservationDTO> mapToRoomResponseDTOs(RoomEntity roomEntity) {
-        List<RoomReservationDTO> roomReservationDTOS = new ArrayList<>();
-        if (roomEntity.getRoomReservation() != null) {
-            roomReservationDTOS = this.roomReservationMapper.toRoomReservationDTOs(roomEntity.getRoomReservation());
-        }
-        return roomReservationDTOS;
+    public List<RoomReservationEntity> mapToRoomResponseDTOs(RoomEntity roomEntity) {
+//        List<RoomReservationDTO> roomReservationDTOS = new ArrayList<>();
+//        if (roomEntity.getRoomReservation() != null) {
+//            roomReservationDTOS = this.roomReservationMapper.toRoomReservationDTOs(roomEntity.getRoomReservation());
+//        }
+        return roomEntity.getRoomReservation();
     }
 }
