@@ -29,13 +29,6 @@ public class ReservationService {
                 new ReservationIsNotExistsException(id));
     }
 
-    public ReservationEntity editReservation(ReservationEntity updateReservation) {
-        if (!this.reservationRepository.existsById(updateReservation.getId())) {
-            throw new ReservationIsNotExistsException(updateReservation.getId());
-        }
-        return this.reservationRepository.save(updateReservation);
-    }
-
     public ReservationEntity reverseStatusReservationFollowId(int id) {
 
         ReservationEntity reservationFromDatabase = this.reservationRepository.getOne(id);

@@ -40,7 +40,6 @@ public class RoomReservationService {
                 () -> new RoomReservationIsNotExistsException(id));
     }
 
-
     public RoomReservationEntity editRoomReservation(RoomReservationEntity editReservation) {
         if (!this.roomReservationRepository.existsById(editReservation.getId())) {
             throw new RoomReservationIsNotExistsException(editReservation.getId());
@@ -58,7 +57,6 @@ public class RoomReservationService {
         }
         this.roomReservationRepository.deleteById(id);
     }
-
 
     public List<RoomReservationEntity> addNewRoomReservations(int numberOfRooms, RoomReservationRequestDTO roomReservationEntity, List<String> PromoCodes) {
 

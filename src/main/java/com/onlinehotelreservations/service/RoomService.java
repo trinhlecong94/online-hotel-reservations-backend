@@ -20,10 +20,6 @@ public class RoomService {
 
     private final RoomRepository roomRepository;
 
-    public List<RoomEntity> getAllRoom() {
-        return this.roomRepository.findAll();
-    }
-
     public RoomEntity getRoomFollowID(int id) {
         return this.roomRepository.findById(id).orElseThrow(() ->
                 new RoomIsNotExistsException(id));
@@ -77,7 +73,6 @@ public class RoomService {
                 roomEntityList.add(room);
             }
         }
-
         return roomEntityList;
     }
 

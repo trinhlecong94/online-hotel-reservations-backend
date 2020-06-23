@@ -1,6 +1,7 @@
 package com.onlinehotelreservations.controller.roomreservation.DTO;
 
 import com.onlinehotelreservations.controller.reservation.DTO.ReservationDTO;
+import com.onlinehotelreservations.controller.room.DTO.RoomResponseDTO;
 import com.onlinehotelreservations.shared.enums.RoomReservationStatus;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -17,7 +18,7 @@ public class RoomReservationDTO {
 
     private int id;
 
-    private Room room;
+    private RoomResponseDTO room;
 
     private ReservationDTO reservation;
 
@@ -47,16 +48,5 @@ public class RoomReservationDTO {
     @Enumerated(EnumType.STRING)
     private RoomReservationStatus status = RoomReservationStatus.PENDING;
 
-    @Data
-    public static class Room {
-        private int id;
-
-        @NotNull
-        private String name;
-
-        @NotNull
-        private int floor;
-
-    }
 
 }
