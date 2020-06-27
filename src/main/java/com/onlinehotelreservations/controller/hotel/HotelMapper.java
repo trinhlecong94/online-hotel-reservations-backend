@@ -39,6 +39,7 @@ public abstract class HotelMapper {
                         .id(item.getId())
                         .imgLink(item.getImgLink())
                         .name(item.getName())
+                        .desciption(item.getDesciption())
                         .build();
 
                 brands.add(brand);
