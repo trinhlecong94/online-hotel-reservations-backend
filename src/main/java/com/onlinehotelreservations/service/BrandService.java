@@ -28,9 +28,6 @@ public class BrandService {
     }
 
     public BrandEntity addNewBrand(BrandEntity brandEntity) {
-        if (this.brandRepository.findByName(brandEntity.getName()).isPresent()) {
-            throw new NameBrandIsExistException(brandEntity.getName());
-        }
         return this.brandRepository.save(brandEntity);
     }
 

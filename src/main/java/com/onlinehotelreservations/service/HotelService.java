@@ -29,9 +29,6 @@ public class HotelService {
     }
 
     public HotelEntity addNewHotel(HotelEntity hotelEntity) {
-        if (this.hotelRepository.findByName(hotelEntity.getName()).isPresent()) {
-            throw new NameHotelIsExistException(hotelEntity.getName());
-        }
         return this.hotelRepository.save(hotelEntity);
     }
 
@@ -41,12 +38,6 @@ public class HotelService {
 
     public HotelEntity editHotel(HotelEntity hotelEntity) {
         HotelEntity hotelEntityFromDatabase = this.getHotelFollowID(hotelEntity.getId());
-
-        if (this.hotelRepository.findByName(hotelEntity.getName()).isPresent()) {
-            throw new NameHotelIsExistException(hotelEntity.getName());
-        }
-
-        hotelEntityFromDatabase.setName(hotelEntity.getName());
         return this.hotelRepository.save(hotelEntity);
     }
 
