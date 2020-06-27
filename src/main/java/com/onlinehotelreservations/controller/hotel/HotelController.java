@@ -6,6 +6,7 @@ import com.onlinehotelreservations.service.HotelService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,6 +21,7 @@ public class HotelController {
     private final HotelMapper hotelMapper;
     private final HotelService hotelService;
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public HotelDTO addNewHotel(@RequestBody @Validated HotelDTO hotelDTO) {
@@ -40,6 +42,7 @@ public class HotelController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public HotelDTO editHotelFollowID(@PathVariable("id") int id, @RequestBody @Validated HotelDTO hotelDTO) {
         hotelDTO.setId(id);
@@ -50,6 +53,7 @@ public class HotelController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public HotelDTO deleteHotelFollowID(@PathVariable("id") int id) {
         return this.hotelMapper.toHotelDTO(

@@ -5,6 +5,7 @@ import com.onlinehotelreservations.service.RoomTypeService;
 import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,17 +31,20 @@ public class RoomTypeController {
         return new ApiData<>(this.roomTypeMapper.toRoomTypeDTOs(this.roomTypeService.getAllRoomType()));
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ApiData<RoomTypeDTO> saveRoomType(@RequestBody @Validated RoomTypeDTO roomTypeDTO) {
         return new ApiData<>(this.roomTypeMapper.toRoomTypeDTO(this.roomTypeService.addNewRoomType(this.roomTypeMapper.toRoomTypeEntity(roomTypeDTO))));
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping()
     public ApiData<RoomTypeDTO> editRoomType(@RequestBody @Validated RoomTypeDTO roomTypeDTO) {
         return new ApiData<>(this.roomTypeMapper.toRoomTypeDTO(this.roomTypeService
                 .editRoomType(this.roomTypeMapper.toRoomTypeEntity(roomTypeDTO))));
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public void deleteRoomType(@PathVariable("id") int id) {
         this.roomTypeService.deleteRoomTypeFollowId(id);

@@ -8,6 +8,7 @@ import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
@@ -55,18 +56,21 @@ public class RoomController {
         return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.getRoomFollowID(id)));
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping
     public ApiData<RoomResponseDTO> editRoom(@RequestBody RoomRequestDTO editRoom) {
         return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.editRoom(
                 this.roomRequestMapper.toRoomEntity(editRoom))));
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     public ApiData<RoomResponseDTO> addNewRoom(@RequestBody RoomRequestDTO newRoom) {
         return new ApiData<>(this.roomResponseMapper.toRoomResponseDTO(this.roomService.addNewRoom(
                 this.roomRequestMapper.toRoomEntity(newRoom))));
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public void deleteRoom(@PathVariable("id") int id) {
         this.roomService.deleteRoom(id);

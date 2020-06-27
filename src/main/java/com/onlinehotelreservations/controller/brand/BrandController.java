@@ -6,6 +6,7 @@ import com.onlinehotelreservations.shared.model.ApiData;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,6 +31,7 @@ public class BrandController {
         return new ApiData<>(this.brandMapper.toBrandDTO(this.brandService.getBrandFollowID(id)));
     }
 
+    @Secured("ROLE_ADMIN")
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ApiData<BrandDTO> addNewBrand(@RequestBody @Validated BrandDTO brandDTO) {
@@ -38,6 +40,7 @@ public class BrandController {
         ));
     }
 
+    @Secured("ROLE_ADMIN")
     @PutMapping("/{id}")
     public BrandDTO editBrandFollowID(@PathVariable("id") int id, @RequestBody @Validated BrandDTO brandDTO) {
         brandDTO.setId(id);
@@ -48,6 +51,7 @@ public class BrandController {
         );
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public BrandDTO deleteBrandFollowID(@PathVariable("id") int id) {
         return this.brandMapper.toBrandDTO(

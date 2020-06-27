@@ -42,6 +42,7 @@ public class UserController {
                 .editUser(this.authenticationMapper.toUserEntity(registerDTO))));
     }
 
+    @Secured("ROLE_ADMIN")
     @DeleteMapping("/{id}")
     public void deleteUser(@PathVariable("id") int id) {
         this.userService.deleteUserFollowId(id);

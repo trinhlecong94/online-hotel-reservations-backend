@@ -30,7 +30,7 @@ public class ReservationController {
     }
 
     @PatchMapping("/{id}/status")
-    public ApiData<ReservationDTO> changeStatusByUserId(@PathVariable("id") int id) {
+    public ApiData<ReservationDTO> changeStatusById(@PathVariable("id") int id) {
         return new ApiData<>(this.reservationMapper.toReservationDTO(this.reservationService.reverseStatusReservationFollowId(id)));
     }
 
